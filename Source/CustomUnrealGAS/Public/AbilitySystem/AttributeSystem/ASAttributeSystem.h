@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
+#include "ASAttributeSystem.generated.h"
 
 /**
  * 
  */
-class CUSTOMUNREALGAS_API ASAttributeSystem
+UCLASS()
+class CUSTOMUNREALGAS_API UASAttributeSystem : public UComponent
 {
-public:
-	ASAttributeSystem();
-	~ASAttributeSystem();
+	GENERATED_BODY()
 };

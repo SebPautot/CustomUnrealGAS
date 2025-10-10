@@ -3,10 +3,3 @@
 
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
 
-ASAttributeSystem::ASAttributeSystem()
-{
-}
-
-ASAttributeSystem::~ASAttributeSystem()
-{
-}
