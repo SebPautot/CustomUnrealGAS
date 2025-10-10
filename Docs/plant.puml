@@ -1,0 +1,122 @@
+@startuml
+hide empty members
+
+enum EAttributeDisplayType {
+EADT_Bar = 1
+EADT_Numeric = 2
+}
+
+'' ABILITIES
+enum EAbilityTarget {
+EAT_Self = 1
+EAT_AllEnemy = 2
+EAT_Target = 3
+}
+
+class UAbilitySystem {
++ TArray<UAbility> Abilities
+
+}
+UAbilitySystem --> UAbility : lists
+
+class UAbility {
+- ACharacter* Owner
++ FName ActionName
+
++ TSubclassOf<UAbilityTask> TaskClass
+- TArray<TObjectPtr<UAbilityTask>> TaskInstances
+
+- float CurrentCooldown
++ FScalableFloat Cooldown
++ FOnCooldownStateChangedSignature OnCooldownStateChanged
+
++ void UseAbility()
++ bool TryUseAbility()
++ bool CanUseAbility()
+- UAbilityTask* InstantiateTask()
++ EAbilityTarget GetAbilityTarget()
++ void CancelAbilityTask(UAbilityTask*)
++ void CancelAbility()
+}
+UAbility-->EAbilityTarget : described by
+UAbility-->UAbilityTask
+
+class UAbilityTask {
+- {abstract} void void OnExecute()
+- {abstract} void ExecutionTick()
+- {abstract} void OnStopExecuting()
+
+- UAbility* Owner
++ void StopExecuting()
+}
+
+note right of UAbilityTask
+Implements UAbility gameplay logic
+Allows the Ability to manage the lifecycle of this task.
+The task must call StopExecuting() to stop ticking by signaling its owner the task is completed.
+endnote
+
+APawn <|-- ACharacter
+class ACharacter {
++ TObjectPtr<AActor> Target
++ TObjectPtr<UAttributeSystem> AttributeSystem
++ int SelectedAbilityIndex
++ FOnSelectedAbilityIndexChangedSignature OnSelectedAbilityIndexChanged
++ TObjectPtr<UAbilitySystem> AbilitySystem
+}
+ACharacter --> UAttributeSystem
+ACharacter --> UAbilitySystem
+
+' ACharacter <|-- APlayerCharacter
+' class APlayerCharacter {
+' }
+
+' ACharacter <|-- AEnemyCharacter
+' class AEnemyCharacter {
+' }
+
+'' ATTRIBUTES
+struct FAttributeData{
++ FName Name
++ FText DisplayName
++ EAttributeDisplayType Display
++ UCurveFloat Scaling
+}
+FAttributeData-->EAttributeDisplayType : described by
+
+class UAttribute {
+- float BaseValue
+- float CurrentValue
+
++ FAttributeData Data
+
++ float GetValue()
++ SetValue(float)
++ SetLevel(int)
+}
+UAttribute --> FAttributeData : described by
+
+class UAttributeSystem {
++ TMap<FName, UAttribute> Attributes
++ InstantiateAttributesFromData(FAttributeData[])
+}
+UAttributeSystem --> UAttribute : lists
+
+note right of UAttributeSystem
+Lists <attribute name, attribute> pairs
+endnote
+
+'' GAME SYSTEM
+class UGameMode {
++ TObjectPtr<ACharacter> PlayerCharacter
++ TObjectPtr<ACharacter> EnemyCharacters
++ DeclareDeath(ACharacter*)
+- ACharacter* GenerateNewEnemy()
+}
+UGameMode --> ACharacter
+note right of UGameMode
+Factory design pattern, generates enemies to fight at the start.
+Also manages enemies once they are KIA. New enemies are spawned, the class may reuse recently dead enemies.
+endnote
+
+@enduml
