@@ -6,6 +6,10 @@
 #include "GameFramework/Pawn.h"
 #include "ASPawn.generated.h"
 
+class UASAttributeSystem;
+class UASAbilitySystem;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSelectedAbilityIndexChangedSignature, int, NewIndex);
 UCLASS()
 class CUSTOMUNREALGAS_API AASPawn : public APawn
 {
@@ -26,4 +30,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	TObjectPtr<AASPawn> Target;
+	TObjectPtr<UASAttributeSystem> AttributeSystem;
+	int SelectedAbilityIndex = 0;
+	FOnSelectedAbilityIndexChangedSignature OnSelectedAbilityIndexChanged;
+	TObjectPtr<UASAbilitySystem> AbilitySystem;
 };
