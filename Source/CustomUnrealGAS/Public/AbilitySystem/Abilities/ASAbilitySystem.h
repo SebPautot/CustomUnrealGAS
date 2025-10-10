@@ -7,10 +7,16 @@
 #include "ASAbilitySystem.generated.h"
 
 
-UCLASS(ClassGroup=(AbilitySystem), meta=(BlueprintSpawnableComponent))
+class UASAbility;
+
+UCLASS(ClassGroup=(Abilities), Category = "Abilities", meta=(BlueprintSpawnableComponent))
 class CUSTOMUNREALGAS_API UASAbilitySystem : public UActorComponent
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+	TArray<TObjectPtr<UASAbility>> Abilities;
 
 public:
 	UASAbilitySystem();
