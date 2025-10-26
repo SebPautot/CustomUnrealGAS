@@ -15,7 +15,7 @@ class CUSTOMUNREALGAS_API UASAbilitySystem : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
 	TArray<TObjectPtr<UASAbility>> Abilities;
 
 public:
