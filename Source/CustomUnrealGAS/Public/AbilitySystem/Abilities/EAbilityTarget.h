@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "EAbilityTarget.generated.h"
 
 /** The possible abilities' target types. */
 UENUM(Blueprintable)
