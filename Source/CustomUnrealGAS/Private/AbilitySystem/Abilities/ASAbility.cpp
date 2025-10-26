@@ -24,3 +24,9 @@ void UASAbility::CancelAbility()
 	
 }
 
+void UASAbility::UseAbility_Implementation(const TArray<AASEnemy*>& Targets)
+{
+	
+}
+
+

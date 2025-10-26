@@ -58,8 +58,8 @@ private:
 
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
-	void UseAbility(TArray<AASEnemy*> Targets);
-	virtual void UseAbility_Implementation(TArray<AASEnemy*> Targets) {};
+	void UseAbility(const TArray<AASEnemy*>& Targets);
+	virtual void UseAbility_Implementation(const TArray<AASEnemy*>& Targets);
 	
 	bool TryUseAbility();
 	bool CanUseAbility();

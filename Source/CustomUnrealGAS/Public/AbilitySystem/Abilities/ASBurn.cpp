@@ -3,7 +3,7 @@
 #include "ASEnemy.h"
 
 
-void UASBurn::UseAbility_Implementation(const TArray<AASEnemy*> Targets)
+void UASBurn::UseAbility_Implementation(const TArray<AASEnemy*>& Targets)
 {
 	if (Targets.IsEmpty())
 		return;
