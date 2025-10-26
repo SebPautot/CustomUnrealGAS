@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "EAbilityTarget.h"
+#include "EDamageScalingMode.h"
 #include "UObject/Object.h"
 #include "ASAbility.generated.h"
 
+class AASEnemy;
 class UASAbilityTask;
 class AASPawn;
 
@@ -20,17 +22,12 @@ class CUSTOMUNREALGAS_API UASAbility : public UObject
 {
 	GENERATED_BODY()
 
-	friend class ASAbilityTask;
-
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	FName ActionName;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	FText DisplayName;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
-	TSubclassOf<UASAbilityTask> TaskClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	float Cooldown;
@@ -41,21 +38,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	EAbilityTarget AbilityTargetType;
 
+	/**
+	 * A pre-existing base damage percentage available for any subclass that want to use it.
+	 */
+	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
+	float GenericDamagePercentage = 100.0f;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
+	float GenericDamageScaling = 0.0f;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
+	EDamageScalingMode GenericDamageScalingMode = EDamageScalingMode::DSM_None;
+
 private:
 	UPROPERTY()
 	TObjectPtr<AASPawn> Owner;
 
-	UPROPERTY()
-	TArray<TObjectPtr<UASAbilityTask>> RunningTasks;
-
 	float CurrentCooldown;
 
 public:
-	void UseAbility();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+	void UseAbility(TArray<AASEnemy*> Targets);
+	virtual void UseAbility_Implementation(TArray<AASEnemy*> Targets) {};
+	
 	bool TryUseAbility();
 	bool CanUseAbility();
-	UASAbilityTask* InstantiateTask();
 	EAbilityTarget GetAbilityTargetType();
-	void CancelAbilityTask(UASAbilityTask* Task);
 	void CancelAbility();
 };
