@@ -16,14 +16,9 @@ class CUSTOMUNREALGAS_API AASPawn : public APawn
 	GENERATED_BODY()
 
 public:
-	AASPawn();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ability", meta = (ClampMin = 1))
+	int Level = 1;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UASAttributeSystem> AttributeSystem;
 	
@@ -35,4 +30,13 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UASAbilitySystem> AbilitySystem;
+	
+public:
+	AASPawn();
+
+protected:
+	virtual void BeginPlay() override;
+
+public:	
+	virtual void Tick(float DeltaTime) override;
 };
