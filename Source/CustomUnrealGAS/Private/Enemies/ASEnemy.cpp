@@ -1,7 +1,7 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ASEnemy.h"
+#include "Enemies/ASEnemy.h"
 
 #include "ASHealthComponent.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"

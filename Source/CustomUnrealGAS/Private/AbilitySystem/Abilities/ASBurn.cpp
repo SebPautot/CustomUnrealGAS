@@ -1,6 +1,6 @@
-﻿#include "ASBurn.h"
+﻿#include "AbilitySystem/Abilities/ASBurn.h"
 
-#include "ASEnemy.h"
+#include "Enemies/ASEnemy.h"
 
 
 void UASBurn::UseAbility_Implementation(const TArray<AASEnemy*>& Targets)
