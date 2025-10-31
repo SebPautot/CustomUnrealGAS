@@ -1,0 +1,27 @@
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "ASAttributeData.h"
+#include "UObject/Object.h"
+#include "ASAttribute.generated.h"
+
+/**
+ * 
+ */
+UCLASS()
+class CUSTOMUNREALGAS_API UASAttribute : public UObject {
+	GENERATED_BODY()
+
+private:
+	FAttributeData Data;
+	float BaseValue;
+	float CurrentValue;
+	
+public:
+	float GetValue();
+	void SetValue(float NewValue);
+	void SetLevel(int Level);
+	void SetData(FAttributeData NewData) { Data = NewData; }
+};

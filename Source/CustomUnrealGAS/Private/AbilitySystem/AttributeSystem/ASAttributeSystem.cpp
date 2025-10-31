@@ -3,18 +3,7 @@
 
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
 
-float UASAttribute::GetValue()
-{
-    return 0.0f;
-}
-
-void UASAttribute::SetValue(float NewValue)
-{
-}
-
-void UASAttribute::SetLevel(int Level)
-{
-}
+#include "AbilitySystem/AttributeSystem/ASAttribute.h"
 
 UASAttribute * UASAttributeSystem::InstantiateAttributesFromData(const TArray<FAttributeData*>& AttributeArray)
 {
@@ -24,4 +13,6 @@ UASAttribute * UASAttributeSystem::InstantiateAttributesFromData(const TArray<FA
         NewAttribute->SetData(*Attr);
         Attributes.Add(Attr->Name, NewAttribute);
     }
+
+    return nullptr;
 }
