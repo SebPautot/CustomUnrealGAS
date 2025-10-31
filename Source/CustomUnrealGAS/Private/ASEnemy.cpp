@@ -3,10 +3,16 @@
 
 #include "ASEnemy.h"
 
+#include "ASHealthComponent.h"
+#include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
+
 
 AASEnemy::AASEnemy()
 {
 	PrimaryActorTick.bCanEverTick = false;
+
+	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>("Attribute System");
+	HealthComponent = CreateDefaultSubobject<UASHealthComponent>("Health Component");
 }
 
 void AASEnemy::BeginPlay()
