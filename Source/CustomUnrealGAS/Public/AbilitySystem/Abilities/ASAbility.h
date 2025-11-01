@@ -14,6 +14,7 @@ class UASAbilityTask;
 class AASPawn;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownStateChangedSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelUpSignature);
 
 /**
  * 
@@ -23,6 +24,17 @@ class CUSTOMUNREALGAS_API UASAbility : public UObject
 {
 	GENERATED_BODY()
 
+protected:
+	/** The level of the ability. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Leveling", meta = (ClampMin = 1, AllowPrivateAccess = true))
+	int Level = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Leveling", meta = (UIMin = 0, AllowPrivateAccess = true))
+	float CurrentExperience;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Leveling", meta = (AllowPrivateAccess = true))
+	UCurveFloat* ExperienceCurve;
+	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	FName ActionName;
@@ -36,12 +48,13 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Ability")
 	FOnCooldownStateChangedSignature OnCooldownStateChanged;
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Ability")
+	FOnLevelUpSignature OnLevelUp;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	EAbilityTarget AbilityTargetType;
 
-	/**
-	 * A pre-existing base damage percentage available for any subclass that want to use it.
-	 */
+	/** A pre-existing base damage percentage available for any subclass that want to use it. */
 	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
 	float GenericDamagePercentage = 100.0f;
 
@@ -74,9 +87,32 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
 	void UseAbilitySingle(const TScriptInterface<IASTargetable>& Target);
 	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target);
+
+	void AddExperience(float Experience);
+	void LevelUp();
+	float GetRequiredExperience() const;
 	
 	bool TryUseAbility();
 	bool CanUseAbility();
 	EAbilityTarget GetAbilityTargetType();
 	void CancelAbility();
+
+	/**
+	 * Calculate the scaled damage value for the generic ability damage variables.
+	 * @return The generic damage.
+	 */
+	float GetGenericDamageForLevel();
+
+	/**
+	 * Performs a hyperbolic mathematical operation using the provided parameters.
+	 *
+	 * @param Base The base value.
+	 * @param Value A value used to scale the result in conjunction with Count.
+	 * @param Count The multiplier applied to the count.
+	 * @return The result of the hyperbolic computation.
+	 */
+	FORCEINLINE static float DoHyperbolicMath(const float Base, const float Value, const float Count)
+	{
+		return Base * (1 - 1 / (1 + Value * Count));
+	}
 };

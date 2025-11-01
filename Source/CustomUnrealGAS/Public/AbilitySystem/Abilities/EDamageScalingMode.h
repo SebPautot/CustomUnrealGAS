@@ -12,6 +12,8 @@ enum class EDamageScalingMode : uint8
 	DSM_None UMETA(DisplayName="None"),
 	/** Add the scaling value to the percentage */
 	DSM_Linear UMETA(DisplayName="Linear"),
-	/** Multiply the scaling value to the percentage. The scaling value is considered as a percentage. */
-	DSM_Multiplicative UMETA(DisplayName="Multiplicative"),
+	/** Scales the value with a hyperbolic formula.
+	 * @remarks Formula: @code f(x) = 1-1 / (1 + a + x)
+	 */
+	DSM_Hyperbolic UMETA(DisplayName="Hyperbolic"),
 };
