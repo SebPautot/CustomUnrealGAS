@@ -1,14 +1,29 @@
 ﻿#pragma once
 #include "ASAbility.h"
+#include "AbilitySystem/AttributeSystem/ASAttributeData.h"
 #include "ASBurn.generated.h"
 
 UCLASS(Blueprintable, Category = "Abilities")
 class CUSTOMUNREALGAS_API UASBurn : public UASAbility
 {
 	GENERATED_BODY()
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Burn", meta = (AllowPrivateAccess = true, ClampMin = 0))
+	int BaseBurn = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Burn", meta = (AllowPrivateAccess = true, ClampMin = 0))
+	int BurnPerLevel = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Burn", meta = (AllowPrivateAccess = true))
+	FDataTableRowHandle BurnAttributeRow;
+	
+private:
+	FASAttributeData* BurnData;
+	FASAttributeData* GetBurnData();
 	
 public:
-	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target) override;
+	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& TargetableActor) override;
 	
-	
+	FORCEINLINE int GetBurnScaled() const { return BurnPerLevel * Level; }
 };
