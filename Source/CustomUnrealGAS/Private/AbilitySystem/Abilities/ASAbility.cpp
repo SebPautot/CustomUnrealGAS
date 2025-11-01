@@ -42,6 +42,14 @@ float UASAbility::GetGenericDamageForLevel()
 	return Total;
 }
 
+FASAttributeData* UASAbility::GetGenericData()
+{
+	if (!GenericData)
+		GenericData = GenericAttributeRow.GetRow<FASAttributeData>(TEXT(""));
+	
+	return GenericData;
+}
+
 void UASAbility::UseAbility_Implementation(TArray<TScriptInterface<IASTargetable>>& Targets)
 {
 	if (Targets.IsEmpty())
@@ -53,7 +61,7 @@ void UASAbility::UseAbility_Implementation(TArray<TScriptInterface<IASTargetable
 	}
 }
 
-void UASAbility::UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target)
+void UASAbility::UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& TargetableActor)
 {
 	
 }

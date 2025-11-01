@@ -5,19 +5,11 @@
 #include "AbilitySystem/AttributeSystem/ASAttribute.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
 
-FASAttributeData* UASBurn::GetBurnData()
-{
-	if (!BurnData)
-		BurnData = BurnAttributeRow.GetRow<FASAttributeData>(TEXT(""));
-	
-	return BurnData;
-}
-
 void UASBurn::UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& TargetableActor)
 {
 	IASTargetable* Target {TargetableActor.GetInterface()};
 	const auto AttributeSystem = Target->GetAttributeSystem();
-	if (const auto BurnAttribute = AttributeSystem->GetOrCreateAttribute(*GetBurnData()))
+	if (const auto BurnAttribute = AttributeSystem->GetOrCreateAttribute(*GetGenericData()))
 	{
 		const auto BurnCount = GetBurnScaled();
 		BurnAttribute->AddValue(BurnCount);

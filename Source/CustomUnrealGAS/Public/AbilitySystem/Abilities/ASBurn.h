@@ -14,13 +14,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Burn", meta = (AllowPrivateAccess = true, ClampMin = 0))
 	int BurnPerLevel = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Burn", meta = (AllowPrivateAccess = true))
-	FDataTableRowHandle BurnAttributeRow;
-	
-private:
-	FASAttributeData* BurnData;
-	FASAttributeData* GetBurnData();
 	
 public:
 	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& TargetableActor) override;

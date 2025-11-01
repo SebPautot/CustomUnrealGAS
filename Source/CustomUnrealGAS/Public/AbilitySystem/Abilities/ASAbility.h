@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "EAbilityTarget.h"
 #include "EDamageScalingMode.h"
+#include "AbilitySystem/AttributeSystem/ASAttributeData.h"
 #include "UObject/Object.h"
 #include "ASAbility.generated.h"
 
@@ -55,20 +56,34 @@ public:
 	EAbilityTarget AbilityTargetType;
 
 	/** A pre-existing base damage percentage available for any subclass that want to use it. */
-	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Scaling")
 	float GenericDamagePercentage = 100.0f;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Scaling")
 	float GenericDamageScaling = 0.0f;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Ability|Scaling")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Scaling")
 	EDamageScalingMode GenericDamageScalingMode = EDamageScalingMode::DSM_None;
 
-private:
+	/** A pre-existing attribute. Usefull for class that only require one. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Attribute", meta = (AllowPrivateAccess = true))
+	FDataTableRowHandle GenericAttributeRow;
+
+protected:
+	/**
+	 * Gets the generic attribute data from the associated data table row.
+	 * @return The generic attribute's data.
+	 */
+	FASAttributeData* GetGenericData();
+
 	UPROPERTY()
 	TObjectPtr<AASPawn> Owner;
 
 	float CurrentCooldown;
+	
+private:
+	/** Cached pointer to the generic attribute's data from the data table. */
+	FASAttributeData* GenericData;
 
 public:
 	/**
@@ -82,11 +97,11 @@ public:
 	/**
 	 * Utils method that is called on each target of the ability.
 	 * @remark The method is only called if UseAbility isn't overriden.
-	 * @param Target The target to attack
+	 * @param TargetableActor The target to attack
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
-	void UseAbilitySingle(const TScriptInterface<IASTargetable>& Target);
-	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target);
+	void UseAbilitySingle(const TScriptInterface<IASTargetable>& TargetableActor);
+	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& TargetableActor);
 
 	void AddExperience(float Experience);
 	void LevelUp();
