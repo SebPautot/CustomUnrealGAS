@@ -17,6 +17,11 @@ class CUSTOMUNREALGAS_API UASAttributeSystem : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY()
 	TMap<FName, TObjectPtr<UASAttribute>> Attributes;
+
+public:
 	UASAttribute* InstantiateAttributesFromData(const TArray<FAttributeData*>& AttributeArray);
+	UASAttribute* GetAttribute(FName Name);
 };
