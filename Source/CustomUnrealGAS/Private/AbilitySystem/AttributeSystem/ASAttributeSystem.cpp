@@ -17,12 +17,10 @@ UASAttribute * UASAttributeSystem::InstantiateAttributesFromData(const TArray<FA
     return nullptr;
 }
 
-UASAttribute* UASAttributeSystem::GetAttribute(const FName Name) 
+UASAttribute* UASAttributeSystem::TryGetAttribute(const FName Name) 
 {
     if (!Attributes.Contains(Name))
-    {
         return nullptr;
-    }
 
     return Attributes[Name];
 }

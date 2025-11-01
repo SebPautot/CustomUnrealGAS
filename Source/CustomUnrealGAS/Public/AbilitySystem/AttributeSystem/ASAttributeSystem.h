@@ -23,5 +23,10 @@ private:
 
 public:
 	UASAttribute* InstantiateAttributesFromData(const TArray<FAttributeData*>& AttributeArray);
-	UASAttribute* GetAttribute(FName Name);
+	/**
+	 * Tries to retrieve an attribute.
+	 * @param Name The name of the attribute to retrieve.
+	 * @return The attribute if it exists.
+	 */
+	UASAttribute* TryGetAttribute(FName Name);
 };
