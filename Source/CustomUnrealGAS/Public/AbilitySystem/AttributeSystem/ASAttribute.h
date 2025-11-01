@@ -15,7 +15,7 @@ class CUSTOMUNREALGAS_API UASAttribute : public UObject {
 	GENERATED_BODY()
 
 private:
-	FAttributeData Data;
+	FASAttributeData Data;
 	float BaseValue;
 	float CurrentValue;
 	
@@ -23,7 +23,7 @@ public:
 	float GetValue();
 	void SetValue(float NewValue);
 	void SetLevel(int Level);
-	void SetData(FAttributeData NewData) { Data = NewData; }
+	void SetData(FASAttributeData NewData) { Data = NewData; }
 
 	void AddValue(float Value) { CurrentValue += Value; }
 };

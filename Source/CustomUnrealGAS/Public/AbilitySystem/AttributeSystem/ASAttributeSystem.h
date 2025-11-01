@@ -6,7 +6,7 @@
 #include "ASAttributeSystem.generated.h"
 
 
-struct FAttributeData;
+struct FASAttributeData;
 class UASAttribute;
 
 /**
@@ -22,8 +22,8 @@ private:
 	TMap<FName, TObjectPtr<UASAttribute>> Attributes;
 
 public:
-	UASAttribute* InitializeAttributeFromData(const FAttributeData& Data);
-	UASAttribute* InstantiateAttributesFromData(const TArray<FAttributeData*>& AttributeArray);
+	UASAttribute* InitializeAttributeFromData(const FASAttributeData& Data);
+	UASAttribute* InstantiateAttributesFromData(const TArray<FASAttributeData*>& AttributeArray);
 	/**
 	 * Tries to retrieve an attribute.
 	 * @param Name The name of the attribute to retrieve.
@@ -36,5 +36,5 @@ public:
 	 * @param Data The data of the attribute to create / retrieve
 	 * @return The existing attribute or the new attribute
 	 */
-	UASAttribute* GetOrCreateAttribute(const FAttributeData& Data);
+	UASAttribute* GetOrCreateAttribute(const FASAttributeData& Data);
 };

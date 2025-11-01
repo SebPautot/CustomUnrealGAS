@@ -5,7 +5,7 @@
 
 #include "AbilitySystem/AttributeSystem/ASAttribute.h"
 
-UASAttribute* UASAttributeSystem::InitializeAttributeFromData(const FAttributeData& Data)
+UASAttribute* UASAttributeSystem::InitializeAttributeFromData(const FASAttributeData& Data)
 {
     UASAttribute* NewAttribute = NewObject<UASAttribute>();
     NewAttribute->SetData(Data);
@@ -14,9 +14,9 @@ UASAttribute* UASAttributeSystem::InitializeAttributeFromData(const FAttributeDa
     return NewAttribute;
 }
 
-UASAttribute * UASAttributeSystem::InstantiateAttributesFromData(const TArray<FAttributeData*>& AttributeArray)
+UASAttribute * UASAttributeSystem::InstantiateAttributesFromData(const TArray<FASAttributeData*>& AttributeArray)
 {
-    for (const FAttributeData* Attr : AttributeArray)
+    for (const FASAttributeData* Attr : AttributeArray)
         InitializeAttributeFromData(*Attr);
 
     return nullptr;
@@ -30,7 +30,7 @@ UASAttribute* UASAttributeSystem::TryGetAttribute(const FName Name)
     return Attributes[Name];
 }
 
-UASAttribute* UASAttributeSystem::GetOrCreateAttribute(const FAttributeData& Data)
+UASAttribute* UASAttributeSystem::GetOrCreateAttribute(const FASAttributeData& Data)
 {
     if (const auto Attribute = TryGetAttribute(Data.Name))
         return Attribute;

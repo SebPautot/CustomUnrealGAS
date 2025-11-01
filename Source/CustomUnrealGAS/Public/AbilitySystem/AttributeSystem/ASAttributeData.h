@@ -3,9 +3,11 @@
 #include "ASAttributeData.generated.h"
 
 USTRUCT(BlueprintType)
-struct FAttributeData {
+struct FASAttributeData : public FTableRowBase {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attribute")
 	FName Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attribute")
 	FText DisplayName;
 };
