@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASAttributeData.h"
 #include "ASAttributeSystem.generated.h"
 
 
@@ -30,6 +31,7 @@ public:
 	 * @return The attribute if it exists.
 	 */
 	UASAttribute* TryGetAttribute(FName Name);
+	UASAttribute* TryGetAttribute(const FASAttributeData* Data) { return TryGetAttribute(Data->Name); }
 
 	/**
 	 * Tries to retrieve an attribute, creates it if not present.
