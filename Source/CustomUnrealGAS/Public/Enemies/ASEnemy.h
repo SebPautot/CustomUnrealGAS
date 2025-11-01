@@ -29,7 +29,7 @@ public:
 	virtual UASAttributeSystem* GetAttributeSystem() override { return AttributeSystem; }
 	
 	UFUNCTION()
-	UASHealthComponent* GetHealthComponent() { return HealthComponent; }
+	virtual UASHealthComponent* TryGetHealthComponent() override { return HealthComponent; }
 
 protected:
 	virtual void BeginPlay() override;
