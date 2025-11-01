@@ -24,4 +24,6 @@ public:
 	void SetValue(float NewValue);
 	void SetLevel(int Level);
 	void SetData(FAttributeData NewData) { Data = NewData; }
+
+	void AddValue(float Value) { CurrentValue += Value; }
 };
