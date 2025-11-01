@@ -21,13 +21,13 @@ private:
 
 	/** The current health of the actor. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health", meta = (AllowPrivateAccess = true, ClampMin = 0))
-	int Health = 100;
+	float Health = 100;
 
 public:
 	UASHealthComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
-	void TakeDamage(int Damage);
+	void TakeDamage(float Damage);
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Health")
 	FOnDeathSignature OnDeath;

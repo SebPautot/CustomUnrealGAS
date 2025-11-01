@@ -9,7 +9,7 @@ UASHealthComponent::UASHealthComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UASHealthComponent::TakeDamage(int Damage)
+void UASHealthComponent::TakeDamage(const float Damage)
 {
 	Health -= Damage;
 	if (Health <= 0)
