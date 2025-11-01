@@ -8,6 +8,7 @@
 #include "UObject/Object.h"
 #include "ASAbility.generated.h"
 
+class IASTargetable;
 class AASEnemy;
 class UASAbilityTask;
 class AASPawn;
@@ -57,9 +58,22 @@ private:
 	float CurrentCooldown;
 
 public:
+	/**
+	 * 
+	 * @param Targets The list of target that the ability need to affect.
+	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
-	void UseAbility(const TArray<AASEnemy*>& Targets);
-	virtual void UseAbility_Implementation(const TArray<AASEnemy*>& Targets);
+	void UseAbility(TArray<TScriptInterface<IASTargetable>>& Targets);
+	virtual void UseAbility_Implementation(TArray<TScriptInterface<IASTargetable>>& Targets);
+
+	/**
+	 * Utils method that is called on each target of the ability.
+	 * @remark The method is only called if UseAbility isn't overriden.
+	 * @param Target The target to attack
+	 */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Ability")
+	void UseAbilitySingle(const TScriptInterface<IASTargetable>& Target);
+	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target);
 	
 	bool TryUseAbility();
 	bool CanUseAbility();

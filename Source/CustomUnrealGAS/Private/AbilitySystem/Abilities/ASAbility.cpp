@@ -24,7 +24,18 @@ void UASAbility::CancelAbility()
 	
 }
 
-void UASAbility::UseAbility_Implementation(const TArray<AASEnemy*>& Targets)
+void UASAbility::UseAbility_Implementation(TArray<TScriptInterface<IASTargetable>>& Targets)
+{
+	if (Targets.IsEmpty())
+		return;
+
+	for (const TScriptInterface<IASTargetable>& Target : Targets)
+	{
+		UseAbilitySingle(Target);
+	}
+}
+
+void UASAbility::UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target)
 {
 	
 }

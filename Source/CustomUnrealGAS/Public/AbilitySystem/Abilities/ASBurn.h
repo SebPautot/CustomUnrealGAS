@@ -8,7 +8,7 @@ class CUSTOMUNREALGAS_API UASBurn : public UASAbility
 	GENERATED_BODY()
 	
 public:
-	virtual void UseAbility_Implementation(const TArray<AASEnemy*>& Targets) override;
+	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& Target) override;
 	
 	
 };
