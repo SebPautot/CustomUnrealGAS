@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASTargetable.h"
 #include "GameFramework/Pawn.h"
 #include "ASPawn.generated.h"
 
@@ -11,7 +12,7 @@ class UASAbilitySystem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSelectedAbilityIndexChangedSignature, int, NewIndex);
 UCLASS()
-class CUSTOMUNREALGAS_API AASPawn : public APawn
+class CUSTOMUNREALGAS_API AASPawn : public APawn, public IASTargetable
 {
 	GENERATED_BODY()
 
@@ -39,4 +40,5 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
+	virtual UASAttributeSystem* GetAttributeSystem() override { return AttributeSystem; }
 };

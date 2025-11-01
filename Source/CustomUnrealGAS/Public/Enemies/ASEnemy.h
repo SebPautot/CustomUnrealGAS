@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASTargetable.h"
 #include "GameFramework/Actor.h"
 #include "ASEnemy.generated.h"
 
@@ -10,7 +11,7 @@ class UASHealthComponent;
 class UASAttributeSystem;
 
 UCLASS()
-class CUSTOMUNREALGAS_API AASEnemy : public AActor
+class CUSTOMUNREALGAS_API AASEnemy : public AActor, public IASTargetable
 {
 	GENERATED_BODY()
 
@@ -25,7 +26,8 @@ public:
 	AASEnemy();
 
 	UFUNCTION()
-	UASAttributeSystem* GetAttributeSystem() { return AttributeSystem; }
+	virtual UASAttributeSystem* GetAttributeSystem() override { return AttributeSystem; }
+	
 	UFUNCTION()
 	UASHealthComponent* GetHealthComponent() { return HealthComponent; }
 
