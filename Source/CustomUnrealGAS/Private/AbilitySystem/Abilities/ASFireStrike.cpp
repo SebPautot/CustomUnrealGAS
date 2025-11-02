@@ -21,8 +21,10 @@ void UASFireStrike::UseAbilitySingle_Implementation(const TScriptInterface<IASTa
 			return;
 		}
 
+		// Get the damage of the attack
 		const float Current = GetGenericDamageForLevel();
-		const float BurnMultiplier = BurnAttribute->GetValue() * DamagePerBurn;
-		Health->TakeDamage(Current + BurnMultiplier);
+		// Multiply it by the number of burn stacks on the target
+		const float Final = BurnAttribute->GetValue() * Current;
+		Health->TakeDamage(Final);
 	}
 }
