@@ -116,7 +116,19 @@ public:
 	 * Calculate the scaled damage value for the generic ability damage variables.
 	 * @return The generic damage.
 	 */
-	float GetGenericDamageForLevel();
+	float GetGenericDamageForLevel() const;
+
+	/**
+	 * Calculates the damage of the ability for a given level. The calculation adapts based on the specified scaling mode.
+	 *
+	 * @param Base The base damage value.
+	 * @param Percentage The damage percentage applied to the base value.
+	 * @param ScalingMode The mode of damage scaling (e.g. linear, hyperbolic, etc.).
+	 * @param Scaling A scaling factor used in the damage calculation.
+	 * @param Level The level of the ability.
+	 * @return The calculated damage for the given level.
+	 */
+	static float GetDamageForLevel(float Base, float Percentage, EDamageScalingMode ScalingMode, float Scaling, float Level);
 
 	/**
 	 * Performs a hyperbolic mathematical operation using the provided parameters.

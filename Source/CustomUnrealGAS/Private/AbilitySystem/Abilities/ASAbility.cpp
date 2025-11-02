@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/Abilities/ASAbility.h"
 
+#include "ASPawn.h"
+
 bool UASAbility::TryUseAbility()
 {
 	return false;
@@ -24,22 +26,38 @@ void UASAbility::CancelAbility()
 	
 }
 
-float UASAbility::GetGenericDamageForLevel()
+float UASAbility::GetGenericDamageForLevel() const
 {
-	auto Total = GenericDamagePercentage;
-	switch (GenericDamageScalingMode)
+	return GetDamageForLevel(Owner->GetBaseDamage(),
+		GenericDamagePercentage,
+		GenericDamageScalingMode,
+		GenericDamageScaling,
+		Level);
+}
+
+float UASAbility::GetDamageForLevel(const float Base, const float Percentage, const EDamageScalingMode ScalingMode, const float Scaling, const float Level)
+{
+	float FinalPercentage = Percentage;
+	
+	switch (ScalingMode)
 	{
 	case EDamageScalingMode::DSM_Linear:
-		Total += GenericDamageScaling * Level;
+		FinalPercentage += Scaling * Level;
+		break;
+	case EDamageScalingMode::DSM_HalfQuadratic:
+		const auto HalfScaling = Scaling / 2;
+		// Doing Level * Level to represent a square power for optimisations
+		FinalPercentage += HalfScaling * (Level * Level) + HalfScaling * Level;
 		break;
 	case EDamageScalingMode::DSM_Hyperbolic:
-		Total = DoHyperbolicMath(Total, GenericDamageScaling, Level);
+		// We set the base to 100 since we want the result in percentage
+		FinalPercentage += DoHyperbolicMath(100, Scaling / 100, Level); 
 		break;
 	default:
 		break;
 	}
 
-	return Total;
+	return FinalPercentage / 100 * Base;
 }
 
 FASAttributeData* UASAbility::GetGenericData()
