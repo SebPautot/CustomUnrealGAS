@@ -51,4 +51,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Ability|Attribute")
 	float GetBaseDamage();
+
+	UFUNCTION(BlueprintCallable, Category = "Targetting")
+	bool TrySetTarget(IASTargetable* NewTarget);
 };

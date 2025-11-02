@@ -40,3 +40,18 @@ float AASPawn::GetBaseDamage()
 	return DamageAttribute->GetValue();
 }
 
+bool AASPawn::TrySetTarget(IASTargetable* NewTarget)
+{
+	if (NewTarget == nullptr)
+		return false;
+
+	if (NewTarget->GetAttributeSystem() == nullptr)
+		return false;
+
+	if (NewTarget->TryGetHealthComponent() == nullptr)
+		return false;
+	
+	Target.SetInterface(NewTarget);
+	Target.SetObject(Cast<UObject>(NewTarget));
+	return true;
+}
