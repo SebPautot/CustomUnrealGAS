@@ -467,6 +467,23 @@
 		"version": "0.2.0",
 		"configurations": [
 			{
+				"name": "Rebuild CustomUnrealGASEditor (Debug)",
+				"request": "launch",
+				"preLaunchTask": "CustomUnrealGASEditor Win64 Development Rebuild",
+				"program": "",
+				"args": [],
+				"cwd": "C:\\Program Files\\Epic Games\\UE_5.6",
+				"stopAtEntry": false,
+				"console": "integratedTerminal",
+				"type": "cppvsdbg",
+				"visualizerFile": "C:\\Program Files\\Epic Games\\UE_5.6\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+				"sourceFileMap": {
+					"D:\\build\\++UE5\\Sync": "C:\\Program Files\\Epic Games\\UE_5.6",
+					"Z:\\UEVFS\\CustomUnrealGAS": "C:\\Users\\spaut\\Documents\\Unreal Projects\\CustomUnrealGAS",
+					"Z:\\UEVFS\\Root": "C:\\Program Files\\Epic Games\\UE_5.6"
+				}
+			},
+			{
 				"name": "Launch CustomUnrealGAS (Debug)",
 				"request": "launch",
 				"program": "C:\\Users\\spaut\\Documents\\Unreal Projects\\CustomUnrealGAS\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
