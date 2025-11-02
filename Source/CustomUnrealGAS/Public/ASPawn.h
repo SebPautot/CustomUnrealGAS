@@ -36,9 +36,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Attribute", meta = (AllowPrivateAccess = true))
 	FDataTableRowHandle DamageAttributeRow;
 
+protected:
+	UPROPERTY(BlueprintReadWrite,  EditAnywhere, Category = "Targetting")
+	TScriptInterface<IASTargetable> Target;
 private:
 	TWeakObjectPtr<UASAttribute> DamageAttribute;
-	
+
 public:
 	AASPawn();
 
