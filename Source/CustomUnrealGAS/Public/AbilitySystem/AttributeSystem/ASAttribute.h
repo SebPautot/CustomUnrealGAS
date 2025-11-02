@@ -25,5 +25,5 @@ public:
 	void SetLevel(int Level);
 	void SetData(FASAttributeData NewData) { Data = NewData; }
 
-	void AddValue(float Value) { CurrentValue += Value; }
+	void AddValue(const float Value) { CurrentValue += Value; }
 };

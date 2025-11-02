@@ -24,7 +24,6 @@ void AASPawn::BeginPlay()
 void AASPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 float AASPawn::GetBaseDamage()

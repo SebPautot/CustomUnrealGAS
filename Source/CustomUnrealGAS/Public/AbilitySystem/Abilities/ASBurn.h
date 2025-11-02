@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "ASAbility.h"
-#include "AbilitySystem/AttributeSystem/ASAttributeData.h"
 #include "ASBurn.generated.h"
 
 UCLASS(Blueprintable, Category = "Abilities")
