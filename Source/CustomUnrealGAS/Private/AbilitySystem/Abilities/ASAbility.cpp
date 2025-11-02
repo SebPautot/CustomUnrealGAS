@@ -37,21 +37,19 @@ float UASAbility::GetGenericDamageForLevel() const
 
 float UASAbility::GetDamageForLevel(const float Base, const float Percentage, const EDamageScalingMode ScalingMode, const float Scaling, const float Level)
 {
-	float FinalPercentage = Percentage;
+	float FinalPercentage{0};
 	
 	switch (ScalingMode)
 	{
 	case EDamageScalingMode::DSM_Linear:
-		FinalPercentage += Scaling * Level;
+		FinalPercentage = DoLinearMath(Percentage, Scaling, Level);
 		break;
 	case EDamageScalingMode::DSM_HalfQuadratic:
-		const auto HalfScaling = Scaling / 2;
-		// Doing Level * Level to represent a square power for optimisations
-		FinalPercentage += HalfScaling * (Level * Level) + HalfScaling * Level;
+		FinalPercentage = DoHalfQuadratic(Percentage, Scaling, Level);
 		break;
 	case EDamageScalingMode::DSM_Hyperbolic:
 		// We set the base to 100 since we want the result in percentage
-		FinalPercentage += DoHyperbolicMath(100, Scaling / 100, Level); 
+		FinalPercentage = DoHyperbolicMath(100, Scaling / 100, Level) + Percentage; 
 		break;
 	default:
 		break;

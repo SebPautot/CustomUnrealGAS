@@ -130,6 +130,11 @@ public:
 	 */
 	static float GetDamageForLevel(float Base, float Percentage, EDamageScalingMode ScalingMode, float Scaling, float Level);
 
+	FORCEINLINE static float DoLinearMath(const float Base, const float Scaling, const float Level)
+	{
+		return Scaling * Level + Base;
+	}
+	
 	/**
 	 * Performs a hyperbolic mathematical operation using the provided parameters.
 	 *
@@ -141,5 +146,20 @@ public:
 	FORCEINLINE static float DoHyperbolicMath(const float Base, const float Value, const float Count)
 	{
 		return Base * (1 - 1 / (1 + Value * Count));
+	}
+
+	/**
+	 * Performs a halved Quadratic mathematical operation.
+	 *
+	 * @param Base The base value.
+	 * @param Scaling The scaling factor applied in the calculation.
+	 * @param Level The level of the ability.
+	 * @return The result of the calculation.
+	 */
+	FORCEINLINE static float DoHalfQuadratic(const float Base, const float Scaling, const float Level)
+	{
+		const auto HalfScaling = Scaling / 2; 	
+		// Doing Level * Level instead of using pow because this is more optimised
+		return HalfScaling * (Level * Level) + HalfScaling * Level + Base;
 	}
 };
