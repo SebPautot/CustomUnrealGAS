@@ -4,6 +4,7 @@
 #include "ASPawn.h"
 
 #include "AbilitySystem/Abilities/ASAbilitySystem.h"
+#include "AbilitySystem/AttributeSystem/ASAttribute.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
 
 AASPawn::AASPawn()
@@ -24,5 +25,19 @@ void AASPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+float AASPawn::GetBaseDamage()
+{
+	if (DamageAttribute.IsValid())
+		return DamageAttribute->GetValue();
+
+	if (!DamageAttributeRow.IsNull())
+	{
+		const auto Data = DamageAttributeRow.GetRow<FASAttributeData>(TEXT(""));
+		DamageAttribute = GetAttributeSystem()->GetOrCreateAttribute(*Data);
+	}
+
+	return DamageAttribute->GetValue();
 }
 

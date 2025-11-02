@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "ASPawn.generated.h"
 
+class UASAttribute;
 class UASAttributeSystem;
 class UASAbilitySystem;
 
@@ -31,6 +32,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UASAbilitySystem> AbilitySystem;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Attribute", meta = (AllowPrivateAccess = true))
+	FDataTableRowHandle DamageAttributeRow;
+
+private:
+	TWeakObjectPtr<UASAttribute> DamageAttribute;
 	
 public:
 	AASPawn();
@@ -41,4 +48,6 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 	virtual UASAttributeSystem* GetAttributeSystem() override { return AttributeSystem; }
+
+	float GetBaseDamage();
 };
