@@ -26,12 +26,17 @@ public:
 	AASEnemy();
 
 	UFUNCTION()
-	virtual UASAttributeSystem* GetAttributeSystem() override { return AttributeSystem; }
+	virtual UASAttributeSystem* GetAttributeSystem() override { return IsDead ? nullptr : AttributeSystem; }
 	
 	UFUNCTION()
-	virtual UASHealthComponent* TryGetHealthComponent() override { return HealthComponent; }
+	virtual UASHealthComponent* TryGetHealthComponent() override { return IsDead ? nullptr : HealthComponent; }
 
+	UPROPERTY(VisibleAnywhere)
+	bool IsDead = false;
 protected:
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void OnDeath();
 
 };

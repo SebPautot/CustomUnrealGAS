@@ -18,7 +18,10 @@ AASEnemy::AASEnemy()
 void AASEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	HealthComponent->OnDeath.Add(&AASEnemy::OnDeath);
 }
 
-
+void AASEnemy::OnDeath()
+{
+	IsDead = true;
+}
