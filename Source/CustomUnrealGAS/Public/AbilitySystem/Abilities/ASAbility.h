@@ -129,6 +129,7 @@ public:
 	 * @return The calculated damage for the given level.
 	 */
 	static float GetDamageForLevel(float Base, float Percentage, EDamageScalingMode ScalingMode, float Scaling, float Level);
+	static float GetFinalPercentage(float Percentage, EDamageScalingMode ScalingMode, float Scaling, float Level);
 
 	FORCEINLINE static float DoLinearMath(const float Base, const float Scaling, const float Level)
 	{

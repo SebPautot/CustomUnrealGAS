@@ -37,6 +37,12 @@ float UASAbility::GetGenericDamageForLevel() const
 
 float UASAbility::GetDamageForLevel(const float Base, const float Percentage, const EDamageScalingMode ScalingMode, const float Scaling, const float Level)
 {
+	const float FinalPercentage = GetFinalPercentage(Percentage, ScalingMode, Scaling, Level);
+	return FinalPercentage / 100 * Base;
+}
+
+float UASAbility::GetFinalPercentage(const float Percentage, const EDamageScalingMode ScalingMode, const float Scaling, const float Level)
+{
 	float FinalPercentage{0};
 	
 	switch (ScalingMode)
@@ -55,7 +61,7 @@ float UASAbility::GetDamageForLevel(const float Base, const float Percentage, co
 		break;
 	}
 
-	return FinalPercentage / 100 * Base;
+	return FinalPercentage;
 }
 
 FASAttributeData* UASAbility::GetGenericData()
