@@ -56,5 +56,5 @@ public:
 	float GetBaseDamage();
 
 	UFUNCTION(BlueprintCallable, Category = "Targetting")
-	bool TrySetTarget(IASTargetable* NewTarget);
+	bool TrySetTarget(TScriptInterface<IASTargetable> NewTarget);
 };
