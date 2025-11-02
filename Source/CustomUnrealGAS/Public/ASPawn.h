@@ -49,5 +49,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual UASAttributeSystem* GetAttributeSystem() override { return AttributeSystem; }
 
+	UFUNCTION(BlueprintCallable, Category = "Ability|Attribute")
 	float GetBaseDamage();
 };
