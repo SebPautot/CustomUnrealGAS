@@ -18,7 +18,7 @@ AASEnemy::AASEnemy()
 void AASEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	HealthComponent->OnDeath.Add(&AASEnemy::OnDeath);
+	HealthComponent->OnDeath.AddDynamic(this, &AASEnemy::OnDeath);
 }
 
 void AASEnemy::OnDeath()
