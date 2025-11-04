@@ -15,7 +15,7 @@ AASPawn::AASPawn()
 	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>(TEXT("AttributeSystem"));
 	AbilitySystem = CreateDefaultSubobject<UASAbilitySystem>(TEXT("AbilitySystem"));
 	
-	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this;
+	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this; 
 }
 
 AASPawn::~AASPawn()
