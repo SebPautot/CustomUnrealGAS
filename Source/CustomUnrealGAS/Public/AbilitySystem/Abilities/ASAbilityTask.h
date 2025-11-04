@@ -3,10 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASAbilityEffectSpec.h"
 #include "UObject/Object.h"
 #include "ASAbilityTask.generated.h"
 
+class IASTargetable;
 class UASAbility;
+class UASAbilityTask;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FASOnTaskFinishedSignature, UASAbilityTask*);
+
+
 /**
  * 
  */
@@ -17,11 +24,33 @@ class CUSTOMUNREALGAS_API UASAbilityTask : public UObject
 
 private:
 	UPROPERTY()
-	TObjectPtr<UASAbility> Owner;
+	UASAbility* Owner;
+
+	UPROPERTY()
+	TArray<TScriptInterface<IASTargetable>> Targets;
+
+	bool bIsActive = false;
+	FASAbilityEffectSpec Spec;
+	int CurrentSegmentIndex = INDEX_NONE;
+
+	FTimerHandle SegmentTimer;
+	FTimerHandle TickTimer;
+
+public:
+	FASOnTaskFinishedSignature OnFinished;
+	
+	void Init(UASAbility* InOwner, const FASAbilityEffectSpec& InSpec, const TArray<TScriptInterface<IASTargetable>>& InTargets);
+	void Start();
+	void Cancel();
+
+	bool IsActive() const { return bIsActive; }
+	FName GetStackKey() const { return Spec.StackKey; }
 
 private:
-	void OnExecute();
-	void ExecutionTick();
-	void OnStopExecuting();
-	void StopExecuting();
+	void BeginNextSegment();
+	void EndCurrentSegment(bool bIsNaturalEnd);
+	void ApplyModifiers(const TArray<FASModifier>& Modifiers, bool bApply);
+	void HandleSegmentTick();
+
+	virtual UWorld* GetWorld() const override;
 };
