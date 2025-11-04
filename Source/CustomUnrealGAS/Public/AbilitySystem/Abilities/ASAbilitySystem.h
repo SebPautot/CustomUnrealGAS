@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASAbilityEffectSpec.h"
 #include "Components/ActorComponent.h"
 #include "ASAbilitySystem.generated.h"
 
 
+class IASTargetable;
+class UASAbilityTask;
 class UASAbility;
 
 UCLASS(ClassGroup=(Abilities), Category = "Abilities", meta=(BlueprintSpawnableComponent))
@@ -21,6 +24,19 @@ public:
 public:
 	UASAbilitySystem();
 
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	UASAbilityTask* StartOrStackEffect(const FASAbilityEffectSpec& Spec, UASAbility* SourceAbility, const TArray<TScriptInterface<IASTargetable>>& Targets);
+
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void CancelEffectByKey(FName StackKey);
+
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	/** Dictionary tracking active tasks by key. */
+	TMultiMap<FName, TWeakObjectPtr<UASAbilityTask>> ActiveTasks;
+
+	UFUNCTION()
+	void OnTaskFinished(UASAbilityTask* Task);
 };
