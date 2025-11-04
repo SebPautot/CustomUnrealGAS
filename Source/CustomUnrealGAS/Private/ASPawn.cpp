@@ -12,10 +12,9 @@
 AASPawn::AASPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	AbilitySystem = CreateDefaultSubobject<UASAbilitySystem>("Ability System");
-	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>("Attribute System");
-
+	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>(TEXT("AttributeSystem"));
+	AbilitySystem = CreateDefaultSubobject<UASAbilitySystem>(TEXT("AbilitySystem"));
+	
 	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this;
 }
 
