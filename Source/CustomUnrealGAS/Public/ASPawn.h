@@ -44,6 +44,7 @@ private:
 
 public:
 	AASPawn();
+	~AASPawn();
 
 protected:
 	virtual void BeginPlay() override;
@@ -57,4 +58,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Targetting")
 	bool TrySetTarget(TScriptInterface<IASTargetable> NewTarget);
+
+	void OnTargetDeath();
 };

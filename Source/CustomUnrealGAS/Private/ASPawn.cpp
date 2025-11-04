@@ -3,9 +3,11 @@
 
 #include "ASPawn.h"
 
+#include "ASGameMode.h"
 #include "AbilitySystem/Abilities/ASAbilitySystem.h"
 #include "AbilitySystem/AttributeSystem/ASAttribute.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 AASPawn::AASPawn()
 {
@@ -13,6 +15,20 @@ AASPawn::AASPawn()
 
 	AbilitySystem = CreateDefaultSubobject<UASAbilitySystem>("Ability System");
 	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>("Attribute System");
+
+	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this;
+}
+
+AASPawn::~AASPawn()
+{
+	AASGameMode* GameMode = Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (!GameMode) return;
+	GameMode->Player = nullptr;
+}
+
+void AASPawn::OnTargetDeath()
+{
+	TrySetTarget(nullptr);
 }
 
 void AASPawn::BeginPlay()
@@ -43,7 +59,10 @@ float AASPawn::GetBaseDamage()
 bool AASPawn::TrySetTarget(TScriptInterface<IASTargetable> NewTarget)
 {
 	if (NewTarget == nullptr)
-		return false;
+	{
+		Target = NewTarget;
+		return true;
+	}
 	
 	if(NewTarget->TryGetHealthComponent() == nullptr)
 		return false;
