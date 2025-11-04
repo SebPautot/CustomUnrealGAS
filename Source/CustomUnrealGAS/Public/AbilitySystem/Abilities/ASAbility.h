@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASPawn.h"
 #include "EAbilityTarget.h"
 #include "EDamageScalingMode.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeData.h"
 #include "UObject/Object.h"
 #include "ASAbility.generated.h"
 
+class UASAbilitySystem;
 class IASTargetable;
 class AASEnemy;
 class UASAbilityTask;
@@ -78,6 +80,9 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<AASPawn> Owner;
+
+	UFUNCTION()
+	UASAbilitySystem* GetOwningSystem() const { return Owner->AbilitySystem; }
 
 	float CurrentCooldown;
 	
