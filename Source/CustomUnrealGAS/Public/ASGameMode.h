@@ -27,7 +27,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	AASEnemy* GenerateNewEnemy();
 	
-	UPROPERTY(Blueprintable, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<AASEnemy> EnemyClass;
 
 	UPROPERTY(Blueprintable, BlueprintReadWrite)

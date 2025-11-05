@@ -2,9 +2,7 @@
 
 
 #include "ASGameMode.h"
-#include "ASPawn.h"
 #include "Enemies/ASEnemy.h"
-#include "cassert"
 
 void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 {
@@ -16,8 +14,6 @@ void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 
 AASEnemy* AASGameMode::GenerateNewEnemy()
 {
-	assert(!IsValid(EnemyClass));
-	
 	AASEnemy* NewEnemy = NewObject<AASEnemy>(EnemyClass->GetClass());
 	Enemies.Add(NewEnemy);
 	return NewEnemy;
