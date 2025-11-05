@@ -21,16 +21,16 @@ public:
 	/**
 	 *Declare the death of the provided enemy so that it can be processed by the system.
 	**/
-	UFUNCTION(BlueprintCallable, Category = GameMode)
+	UFUNCTION(BlueprintCallable)
 	void DeclareDeath(AASEnemy* Enemy);
 	
-	UFUNCTION(BlueprintCallable, Category = GameMode)
+	UFUNCTION(BlueprintCallable)
 	AASEnemy* GenerateNewEnemy();
 	
 	UPROPERTY(Blueprintable, BlueprintReadWrite)
 	TSubclassOf<AASEnemy> EnemyClass;
 
-	UPROPERTY(BlueprintReadWrite, Category = GameMode)
+	UPROPERTY(Blueprintable, BlueprintReadWrite)
 	int StartEnemyCount = 3;
 
 	virtual void BeginPlay() override;
