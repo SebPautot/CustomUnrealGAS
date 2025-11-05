@@ -18,9 +18,24 @@ class CUSTOMUNREALGAS_API AASGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	TObjectPtr<AASPawn> Player;
-	TArray<TObjectPtr<AASEnemy>> Enemies;
 
+	UFUNCTION(BlueprintCallable, Category = GameMode)
 	void DeclareDeath(AASEnemy* Enemy);
+	
+	UFUNCTION(BlueprintCallable, Category = GameMode)
 	AASEnemy* GenerateNewEnemy();
+	
+	UPROPERTY(Blueprintable, BlueprintReadWrite)
+	TSubclassOf<AASEnemy> EnemyClass;
+
+	UPROPERTY(BlueprintReadWrite, Category = GameMode)
+	int MaxEnemyCount = 3;
+
+	virtual void BeginPlay() override;
+
+	
+	UPROPERTY(BlueprintReadWrite)
+	TObjectPtr<AASPawn> Player;
+	UPROPERTY(BlueprintReadWrite)
+	TArray<TObjectPtr<AASEnemy>> Enemies;
 };
