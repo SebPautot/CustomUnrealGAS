@@ -15,7 +15,6 @@ AASPawn::AASPawn()
 	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>(TEXT("AttributeSystem"));
 	AbilitySystem = CreateDefaultSubobject<UASAbilitySystem>(TEXT("AbilitySystem"));
 	
-	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this; 
 }
 
 AASPawn::~AASPawn()
@@ -34,6 +33,7 @@ void AASPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this; 
 }
 
 void AASPawn::Tick(float DeltaTime)

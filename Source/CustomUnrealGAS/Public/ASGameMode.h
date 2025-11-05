@@ -18,7 +18,9 @@ class CUSTOMUNREALGAS_API AASGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-
+	/**
+	 *Declare the death of the provided enemy so that it can be processed by the system.
+	**/
 	UFUNCTION(BlueprintCallable, Category = GameMode)
 	void DeclareDeath(AASEnemy* Enemy);
 	
@@ -29,7 +31,7 @@ public:
 	TSubclassOf<AASEnemy> EnemyClass;
 
 	UPROPERTY(BlueprintReadWrite, Category = GameMode)
-	int MaxEnemyCount = 3;
+	int StartEnemyCount = 3;
 
 	virtual void BeginPlay() override;
 

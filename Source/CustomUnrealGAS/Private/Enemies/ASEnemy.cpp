@@ -3,8 +3,10 @@
 
 #include "Enemies/ASEnemy.h"
 
+#include "ASGameMode.h"
 #include "ASHealthComponent.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AASEnemy::AASEnemy()
@@ -24,4 +26,7 @@ void AASEnemy::BeginPlay()
 void AASEnemy::OnDeath()
 {
 	IsDead = true;
+	AASGameMode* GameMode = Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (!GameMode) return;
+	GameMode->DeclareDeath(this);
 }

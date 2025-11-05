@@ -9,11 +9,15 @@
 void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 {
 	Enemies.Remove(Enemy);
+	Enemy->Destroy();
+
+	GenerateNewEnemy();
 }
 
 AASEnemy* AASGameMode::GenerateNewEnemy()
 {
 	assert(!IsValid(EnemyClass));
+	
 	AASEnemy* NewEnemy = NewObject<AASEnemy>(EnemyClass->GetClass());
 	Enemies.Add(NewEnemy);
 	return NewEnemy;
@@ -22,7 +26,7 @@ AASEnemy* AASGameMode::GenerateNewEnemy()
 void AASGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	for (int i = 0; i < MaxEnemyCount; i++)
+	for (int i = 0; i < StartEnemyCount; i++)
 	{
 		GenerateNewEnemy();
 	}
