@@ -6,7 +6,22 @@
 #include "ASPawn.h"
 #include "AbilitySystem/Abilities/ASAbility.h"
 #include "AbilitySystem/Abilities/ASAbilitySystem.h"
+#include "Enemies/ASEnemyManager.h"
 #include "Enemies/ASTargeter.h"
+
+void AASPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	const auto EnemyManager = GetWorld()->GetSubsystem<UASEnemyManager>();
+	if (!EnemyManager)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Targeter"));
+		return;
+	}
+
+	EnemyManager->OnEnemyDeath.AddUniqueDynamic(this, &AASPlayerController::OnRewardEarned);
+}
 
 AASPawn* AASPlayerController::GetPlayerPawn() const
 {
@@ -40,6 +55,15 @@ void AASPlayerController::RequestPlayAbility(const FName AbilityName) const
 
 	auto Targets = TargetSystem->GetTargetsForType(LocalPawn, Ability->AbilityTargetType);
 	Ability->UseAbility(Targets);
+}
+
+void AASPlayerController::OnRewardEarned(const int Experience)
+{
+	const auto LocalPawn = GetPlayerPawn();
+	if (!LocalPawn)
+		return;
+
+	LocalPawn->AddExperience(Experience);
 }
 
 bool AASPlayerController::UpgradeAbility(const FName SkillName) const
