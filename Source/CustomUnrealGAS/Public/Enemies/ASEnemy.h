@@ -36,6 +36,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
 	TObjectPtr<UCurveFloat> MaxHealthCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UCurveFloat> ExperienceRewardCurve;
+
+	int GetLevel() { return Level; }
+
+	float GetExperienceReward() { return ExperienceRewardCurve->GetFloatValue(Level); }
 	
 protected:
 	virtual void BeginPlay() override;
@@ -43,4 +50,6 @@ protected:
 	UFUNCTION()
 	void OnDeath();
 
+private:
+	int Level = 0;
 };
