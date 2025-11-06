@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "ASPlayerController.generated.h"
 
+class AASPawn;
+
 /**
  * 
  */
@@ -15,5 +17,7 @@ class CUSTOMUNREALGAS_API AASPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	
+	AASPawn* GetPlayerPawn() const;
+
+	void RequestPlayAbility(FName AbilityName) const;
 };

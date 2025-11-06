@@ -2,3 +2,42 @@
 
 
 #include "ASPlayerController.h"
+
+#include "ASPawn.h"
+#include "AbilitySystem/Abilities/ASAbility.h"
+#include "AbilitySystem/Abilities/ASAbilitySystem.h"
+#include "Enemies/ASTargeter.h"
+
+AASPawn* AASPlayerController::GetPlayerPawn() const
+{
+	if (APawn* LocalPawn = GetPawn())
+		return Cast<AASPawn>(LocalPawn);
+	return nullptr;
+}
+
+void AASPlayerController::RequestPlayAbility(const FName AbilityName) const
+{
+	const auto LocalPawn = GetPlayerPawn();
+	if (!LocalPawn)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Player Pawn"));
+		return;
+	}
+
+	const auto Ability = LocalPawn->AbilitySystem->TryGetAbility(AbilityName);
+	if (!Ability)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Ability"));
+		return;
+	}
+
+	const auto TargetSystem = GetWorld()->GetSubsystem<UASTargeter>();
+	if (!TargetSystem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Targeter"));
+		return;
+	}
+
+	auto Targets = TargetSystem->GetTargetsForType(LocalPawn, Ability->AbilityTargetType);
+	Ability->UseAbility(Targets);
+}

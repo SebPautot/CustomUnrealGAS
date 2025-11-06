@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Abilities/ASAbilitySystem.h"
 
+#include "AbilitySystem/Abilities/ASAbility.h"
 #include "AbilitySystem/Abilities/ASAbilityTask.h"
 
 
@@ -14,6 +15,12 @@ UASAbilitySystem::UASAbilitySystem()
 void UASAbilitySystem::BeginPlay()
 {
 	Super::BeginPlay();
+
+	for (auto AbilityClass : AbilityClasses)
+	{
+		UASAbility* Instance = NewObject<UASAbility>(this, AbilityClass);
+		Abilities.Add(Instance->ActionName, Instance);
+	}
 }
 
 UASAbilityTask* UASAbilitySystem::StartOrStackEffect(const FASAbilityEffectSpec& Spec, UASAbility* SourceAbility,
@@ -70,6 +77,11 @@ void UASAbilitySystem::CancelEffectByKey(FName StackKey)
 			Task->Cancel();
 	}
 	ActiveTasks.Remove(StackKey);
+}
+
+UASAbility* UASAbilitySystem::TryGetAbility(const FName Name) const
+{
+	return Abilities.FindRef(Name);
 }
 
 void UASAbilitySystem::OnTaskFinished(UASAbilityTask* Task)

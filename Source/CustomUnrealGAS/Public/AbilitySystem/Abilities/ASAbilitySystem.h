@@ -19,7 +19,10 @@ class CUSTOMUNREALGAS_API UASAbilitySystem : public UActorComponent
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Abilities")
-	TArray<TObjectPtr<UASAbility>> Abilities;
+	TArray<TSubclassOf<UASAbility>> AbilityClasses;
+	
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Abilities")
+	TMap<FName, UASAbility*> Abilities;
 
 public:
 	UASAbilitySystem();
@@ -29,6 +32,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void CancelEffectByKey(FName StackKey);
+
+	UASAbility* TryGetAbility(FName Name) const;
 
 protected:
 	virtual void BeginPlay() override;
