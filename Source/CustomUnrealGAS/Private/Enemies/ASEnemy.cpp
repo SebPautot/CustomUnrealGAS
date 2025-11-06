@@ -5,6 +5,7 @@
 
 #include "ASGameMode.h"
 #include "ASHealthComponent.h"
+#include "ASPawn.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -20,6 +21,14 @@ AASEnemy::AASEnemy()
 void AASEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	int Level = 0;
+	AASGameMode* GameMode = Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GameMode)
+	{
+		Level = GameMode->Player->Level;
+	}
+	HealthComponent->SetMaxHealth(MaxHealthCurve->GetFloatValue(Level));
+	HealthComponent->SetHealth(MaxHealthCurve->GetFloatValue(Level));
 	HealthComponent->OnDeath.AddDynamic(this, &AASEnemy::OnDeath);
 }
 
