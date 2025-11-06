@@ -21,6 +21,8 @@ void UASAbilitySystem::BeginPlay()
 		UASAbility* Instance = NewObject<UASAbility>(this, AbilityClass);
 		Abilities.Add(Instance->ActionName, Instance);
 	}
+
+	OnAllAbilitiesInitialized.Broadcast();
 }
 
 UASAbilityTask* UASAbilitySystem::StartOrStackEffect(const FASAbilityEffectSpec& Spec, UASAbility* SourceAbility,
