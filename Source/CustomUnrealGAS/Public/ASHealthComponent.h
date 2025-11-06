@@ -29,6 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void TakeDamage(float Damage);
 
+	float GetMaxHealth() { return MaxHealth; }
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Health")
 	FOnDeathSignature OnDeath;
 
