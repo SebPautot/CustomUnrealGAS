@@ -16,6 +16,7 @@ AASEnemy* AASGameMode::GenerateNewEnemy()
 {
 	AASEnemy* NewEnemy = NewObject<AASEnemy>(EnemyClass->GetClass());
 	Enemies.Add(NewEnemy);
+	OnEnemyListChanged.Broadcast();
 	return NewEnemy;
 }
 

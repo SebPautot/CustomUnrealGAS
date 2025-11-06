@@ -9,6 +9,8 @@
 class AASPawn;
 class AASEnemy;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEnemyListChangedSignature);
+
 /**
  * 
  */
@@ -35,6 +37,8 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+    FOnEnemyListChangedSignature OnEnemyListChanged;
 	
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<AASPawn> Player;
