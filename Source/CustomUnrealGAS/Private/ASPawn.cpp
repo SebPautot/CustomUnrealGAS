@@ -4,6 +4,7 @@
 #include "ASPawn.h"
 
 #include "ASGameMode.h"
+#include "AbilitySystem/Abilities/ASAbility.h"
 #include "AbilitySystem/Abilities/ASAbilitySystem.h"
 #include "AbilitySystem/AttributeSystem/ASAttribute.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
@@ -71,4 +72,56 @@ bool AASPawn::TrySetTarget(TScriptInterface<IASTargetable> NewTarget)
 
 	Target = NewTarget;
 	return true;
+}
+
+void AASPawn::AddExperience(const float Experience)
+{
+	CurrentExperience += Experience;
+	const auto Diff = CurrentExperience - GetRequiredExperience();
+
+	if (Diff > 0.f)
+	{
+		LevelUp();
+		AddExperience(Diff);
+	}
+}
+
+float AASPawn::GetRequiredExperience() const
+{
+	return ExperienceCurve->GetFloatValue(Level);
+}
+
+int AASPawn::GetAbilityPointsForLevel() const
+{
+	return FMath::CeilToInt(AbilityPointsCurve->GetFloatValue(Level));
+}
+
+bool AASPawn::LevelUpAbility(const FName AbilityName)
+{
+	if (CurrentAbilityPoints <= 0)
+		return false;
+
+	if (const auto Ability = AbilitySystem->TryGetAbility(AbilityName))
+	{
+		Ability->LevelUp();
+		CurrentAbilityPoints--;
+		return true;
+	}
+	
+	return false;
+}
+
+void AASPawn::LevelUp()
+{
+	if (GetRequiredExperience())
+	{
+		Level++;
+		CurrentAbilityPoints = GetAbilityPointsForLevel();
+		OnLevelUp.Broadcast(CurrentAbilityPoints);
+		CurrentExperience = 0.f;
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(100, 5.f, FColor::Red, TEXT("Level up failed"));
+	}
 }

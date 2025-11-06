@@ -88,35 +88,10 @@ void UASAbility::UseAbilitySingle_Implementation(const TScriptInterface<IASTarge
 	
 }
 
-void UASAbility::AddExperience(const float Experience)
-{
-	CurrentExperience += Experience;
-	const auto Diff = CurrentExperience - GetRequiredExperience();
-
-	if (Diff > 0.f)
-	{
-		LevelUp();
-		AddExperience(Diff);
-	}
-}
-
 void UASAbility::LevelUp()
 {
-	if (GetRequiredExperience())
-	{
-		Level++;
-		OnLevelUp.Broadcast();
-		CurrentExperience = 0.f;
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(100, 5.f, FColor::Red, TEXT("Level up failed"));
-	}
-}
-
-float UASAbility::GetRequiredExperience() const
-{
-	return ExperienceCurve->GetFloatValue(Level);
+	Level++;
+	OnLevelUp.Broadcast();
 }
 
 

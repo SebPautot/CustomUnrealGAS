@@ -11,25 +11,34 @@ class UASAttribute;
 class UASAttributeSystem;
 class UASAbilitySystem;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSelectedAbilityIndexChangedSignature, int, NewIndex);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLevelUpSignature, int, PointsAvailable);
+
 UCLASS()
 class CUSTOMUNREALGAS_API AASPawn : public APawn, public IASTargetable
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ability", meta = (ClampMin = 1))
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level")
+	UCurveFloat* ExperienceCurve;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level", meta = (ClampMin = 1))
 	int Level = 1;
+
+	int CurrentExperience = 0;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level")
+	int CurrentAbilityPoints = 4;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level")
+	UCurveFloat* AbilityPointsCurve;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Level")
+	FOnLevelUpSignature OnLevelUp;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UASAttributeSystem> AttributeSystem;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Ability")
-	int SelectedAbilityIndex = 0;
-
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Ability")
-	FOnSelectedAbilityIndexChangedSignature OnSelectedAbilityIndexChanged;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UASAbilitySystem> AbilitySystem;
 
@@ -60,4 +69,10 @@ public:
 	bool TrySetTarget(TScriptInterface<IASTargetable> NewTarget);
 
 	void OnTargetDeath();
+
+	void LevelUp();
+	void AddExperience(float Experience);
+	float GetRequiredExperience() const;
+	int GetAbilityPointsForLevel() const;
+	bool LevelUpAbility(FName AbilityName);
 };

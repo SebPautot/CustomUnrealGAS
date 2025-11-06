@@ -17,7 +17,7 @@ class UASAbilityTask;
 class AASPawn;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownStateChangedSignature);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelUpSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityLevelUpSignature);
 
 /**
  * 
@@ -31,12 +31,6 @@ protected:
 	/** The level of the ability. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Leveling", meta = (ClampMin = 1, AllowPrivateAccess = true))
 	int Level = 1;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Leveling", meta = (UIMin = 0, AllowPrivateAccess = true))
-	float CurrentExperience;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability|Leveling", meta = (AllowPrivateAccess = true))
-	UCurveFloat* ExperienceCurve;
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
@@ -52,7 +46,7 @@ public:
 	FOnCooldownStateChangedSignature OnCooldownStateChanged;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Ability")
-	FOnLevelUpSignature OnLevelUp;
+	FOnAbilityLevelUpSignature OnLevelUp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	EAbilityTarget AbilityTargetType;
@@ -108,9 +102,7 @@ public:
 	void UseAbilitySingle(const TScriptInterface<IASTargetable>& TargetableActor);
 	virtual void UseAbilitySingle_Implementation(const TScriptInterface<IASTargetable>& TargetableActor);
 
-	void AddExperience(float Experience);
 	void LevelUp();
-	float GetRequiredExperience() const;
 	
 	bool TryUseAbility();
 	bool CanUseAbility();
