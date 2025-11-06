@@ -12,6 +12,8 @@ class IASTargetable;
 class UASAbilityTask;
 class UASAbility;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAllAbilityInitializedSignature);
+
 UCLASS(ClassGroup=(Abilities), Category = "Abilities", meta=(BlueprintSpawnableComponent))
 class CUSTOMUNREALGAS_API UASAbilitySystem : public UActorComponent
 {
@@ -23,6 +25,9 @@ public:
 	
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Abilities")
 	TMap<FName, UASAbility*> Abilities;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Abilities")
+	FOnAllAbilityInitializedSignature OnAllAbilitiesInitialized;
 
 public:
 	UASAbilitySystem();
