@@ -3,12 +3,15 @@
 
 #include "ASGameMode.h"
 #include "Enemies/ASEnemy.h"
+#include "Enemies/ASEnemyManager.h"
 
 void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 {
 	Enemies.Remove(Enemy);
-	Enemy->Destroy();
+	if (const auto Subsystem = GetWorld()->GetSubsystem<UASEnemyManager>())
+		Subsystem->RemoveEnemy(Enemy);
 
+	Enemy->Destroy();
 	GenerateNewEnemy();
 }
 
@@ -16,6 +19,10 @@ AASEnemy* AASGameMode::GenerateNewEnemy()
 {
 	AASEnemy* NewEnemy = NewObject<AASEnemy>(EnemyClass->GetClass());
 	Enemies.Add(NewEnemy);
+	
+	if (const auto Subsystem = GetWorld()->GetSubsystem<UASEnemyManager>())
+		Subsystem->AddEnemy(NewEnemy);
+
 	OnEnemyListChanged.Broadcast();
 	return NewEnemy;
 }
