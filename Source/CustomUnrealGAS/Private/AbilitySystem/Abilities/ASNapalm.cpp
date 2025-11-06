@@ -13,8 +13,8 @@ void UASNapalm::UseAbilitySingle_Implementation(const TScriptInterface<IASTarget
 	const auto AttributeSystem = Target->GetAttributeSystem();
 	if (const auto BurnAttribute = AttributeSystem->TryGetAttribute(GetGenericData()->Name))
 	{
-		const float Count = BurnAttribute->GetValue();
+		const float Count = BurnAttribute->GetBaseValue();
 		const float Percentage = GetFinalPercentage(GenericDamagePercentage, GenericDamageScalingMode, GenericDamageScaling, Level);
-		BurnAttribute->AddValue(FMath::FloorToInt(Percentage / 100 * Count));
+		BurnAttribute->SetValue(FMath::FloorToInt(Percentage / 100 * Count));
 	}
 }

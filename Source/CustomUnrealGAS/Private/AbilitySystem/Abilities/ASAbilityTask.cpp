@@ -4,6 +4,8 @@
 #include "AbilitySystem/Abilities/ASAbilityTask.h"
 
 #include "AbilitySystem/Abilities/ASAbility.h"
+#include "AbilitySystem/AttributeSystem/ASAttribute.h"
+#include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
 
 
 void UASAbilityTask::Init(UASAbility* InOwner, const FASAbilityEffectSpec& InSpec, const TArray<TScriptInterface<IASTargetable>>& InTargets)
@@ -97,8 +99,38 @@ void UASAbilityTask::EndCurrentSegment(const bool bIsNaturalEnd)
 		World->GetTimerManager().ClearTimer(SegmentTimer);
 }
 
-void UASAbilityTask::ApplyModifiers(const TArray<FASModifier>& Modifiers, bool bApply)
+void UASAbilityTask::ApplyModifiers(const TArray<FASModifier>& Modifiers, const bool bApply)
 {
+	for (const FASModifier& Modifier : Modifiers)
+	{
+		const FASAttributeData* AttrData = Modifier.GetAttributeData();
+		if (!AttrData)
+			continue;
+
+		for (const TScriptInterface<IASTargetable>& Target : Targets)
+		{
+			if (!Target)
+				continue;
+
+			UASAttributeSystem* AttributeSystem = Target->GetAttributeSystem();
+			if (!AttributeSystem)
+				continue;
+
+			UASAttribute* Attribute = AttributeSystem->TryGetAttribute(AttrData);
+			if (!Attribute)
+				continue;
+
+			if (bApply)
+			{
+				Attribute->ApplyOrReplaceModifier(Modifier, this, CurrentSegmentIndex);
+			}
+			else
+			{
+				// Only removes if this task and this segment applied the modifier
+				Attribute->RemoveModifierIfOwned(this, CurrentSegmentIndex);
+			}
+		}
+	}
 }
 
 void UASAbilityTask::HandleSegmentTick()
