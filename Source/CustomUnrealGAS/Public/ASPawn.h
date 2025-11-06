@@ -74,5 +74,6 @@ public:
 	void AddExperience(float Experience);
 	float GetRequiredExperience() const;
 	int GetAbilityPointsForLevel() const;
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	bool LevelUpAbility(FName AbilityName);
 };
