@@ -33,6 +33,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	bool IsDead = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = true))
+	TObjectPtr<UCurveFloat> MaxHealthCurve;
+	
 protected:
 	virtual void BeginPlay() override;
 
