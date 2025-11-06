@@ -9,6 +9,8 @@
 class IASTargetable;
 class AASEnemy;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemyDeathSignature, int, experience);
+
 /**
  * 
  */
@@ -21,6 +23,9 @@ private:
 	TArray<TScriptInterface<IASTargetable>> Enemies;
 
 public:
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FOnEnemyDeathSignature OnEnemyDeath;
+	
 	TScriptInterface<IASTargetable> GetRandomEnemy();
 	TArray<TScriptInterface<IASTargetable>> GetEnemies() { return Enemies; }
 	
