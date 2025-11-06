@@ -32,6 +32,9 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Health")
 	FOnDeathSignature OnDeath;
 
+	void SetMaxHealth(int NewMaxHealth) { MaxHealth = NewMaxHealth; }
+
+	void SetHealth(float NewHealth) { Health = (NewHealth > MaxHealth)? MaxHealth : NewHealth; }
 protected:
 	virtual void BeginPlay() override;
 };
