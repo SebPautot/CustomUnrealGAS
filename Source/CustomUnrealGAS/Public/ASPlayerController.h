@@ -17,7 +17,12 @@ class CUSTOMUNREALGAS_API AASPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	AASPawn* GetPlayerPawn() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void RequestPlayAbility(FName AbilityName) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	bool UpgradeAbility(FName SkillName) const;
 };

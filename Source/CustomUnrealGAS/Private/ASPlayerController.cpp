@@ -41,3 +41,12 @@ void AASPlayerController::RequestPlayAbility(const FName AbilityName) const
 	auto Targets = TargetSystem->GetTargetsForType(LocalPawn, Ability->AbilityTargetType);
 	Ability->UseAbility(Targets);
 }
+
+bool AASPlayerController::UpgradeAbility(const FName SkillName) const
+{
+	const auto LocalPawn = GetPlayerPawn();
+	if (!LocalPawn)
+		return false;
+
+	return LocalPawn->LevelUpAbility(SkillName);
+}
