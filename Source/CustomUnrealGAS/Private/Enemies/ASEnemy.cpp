@@ -21,7 +21,7 @@ AASEnemy::AASEnemy()
 void AASEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	int Level = 0;
+	Level = 0;
 	AASGameMode* GameMode = Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (GameMode)
 	{
