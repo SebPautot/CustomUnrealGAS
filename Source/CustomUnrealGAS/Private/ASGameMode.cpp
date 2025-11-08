@@ -10,6 +10,8 @@
 #include "Enemies/ASEnemy.h"
 #include "Enemies/ASEnemyManager.h"
 
+// TODO : like in the UASEnemyManager comment, those 2 methods should be move to the subsystem
+
 void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 {
 	Enemies.Remove(Enemy);

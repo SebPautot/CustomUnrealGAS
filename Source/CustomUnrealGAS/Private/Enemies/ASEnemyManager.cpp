@@ -6,6 +6,11 @@
 
 TScriptInterface<IASTargetable> UASEnemyManager::GetRandomEnemy()
 {
+
+	// TODO : For better usage with specific abilities
+	//		We should only be able to return a target that matches specific criterias
+	//		For example, only targets that have at least one stack of burn for abilities that only do something on burn
+	
 	const int RandomIndex = FMath::RandRange(0, Enemies.Num() - 1);
 	return Enemies[RandomIndex];
 }

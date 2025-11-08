@@ -12,6 +12,8 @@ class AASEnemy;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEnemyDeathSignature, TScriptInterface<IASTargetable>, enemy, int, experience);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemySpawnedSignature, TScriptInterface<IASTargetable>, enemy);
 
+// TODO : This class should replace most logic related to enemies found in the AASGameMode class
+
 /**
  * 
  */

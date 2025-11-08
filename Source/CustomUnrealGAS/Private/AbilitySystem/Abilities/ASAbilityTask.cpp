@@ -83,6 +83,8 @@ void UASAbilityTask::BeginNextSegment()
 void UASAbilityTask::EndCurrentSegment(const bool bIsNaturalEnd)
 {
 	const UWorld* World = GetWorld();
+	// TODO: sometimes, the IsValid crashes the game, but not always
+	//		This would need more investigation to fix it
 	if (TickTimer.IsValid())
 		World->GetTimerManager().ClearTimer(TickTimer);
 

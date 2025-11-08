@@ -4,7 +4,6 @@
 #include "ASSpawnPosition.h"
 
 
-// Sets default values
 AASSpawnPosition::AASSpawnPosition()
 {
 	PrimaryActorTick.bCanEverTick = false;
