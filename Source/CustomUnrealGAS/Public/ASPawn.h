@@ -12,6 +12,8 @@ class UASAttributeSystem;
 class UASAbilitySystem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLevelUpSignature, int, PointsAvailable);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnExperiencedGainedSignature, float, Experience);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSuccessfullAbilityLevelUpSignature, FName, AbilityName, int, RemainingUpgrades);
 
 UCLASS()
 class CUSTOMUNREALGAS_API AASPawn : public APawn, public IASTargetable
@@ -25,6 +27,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level", meta = (ClampMin = 1))
 	int Level = 1;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level")
 	int CurrentExperience = 0;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Level")
@@ -44,6 +47,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability|Attribute", meta = (AllowPrivateAccess = true))
 	FDataTableRowHandle DamageAttributeRow;
+	
+	UPROPERTY(BlueprintAssignable, Category = "Level")
+	FOnExperiencedGainedSignature OnExperiencedGained;
+
+	UPROPERTY(BlueprintAssignable, Category = "Ability")
+	FOnSuccessfullAbilityLevelUpSignature OnAbilityLevelUp;
 
 protected:
 	UPROPERTY(BlueprintReadWrite,  EditAnywhere, Category = "Targetting")
@@ -73,8 +82,13 @@ public:
 
 	void LevelUp();
 	void AddExperience(float Experience);
+	
+	UFUNCTION(BlueprintCallable, Category = "Level")
 	float GetRequiredExperience() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Level")
 	int GetAbilityPointsForLevel() const;
-	UFUNCTION(BlueprintCallable, Category = "Ability")
+	
+	UFUNCTION(BlueprintCallable, Category = "Level")
 	bool LevelUpAbility(FName AbilityName);
 };

@@ -3,19 +3,16 @@
 
 #include "ASPawn.h"
 
-#include "ASGameMode.h"
 #include "AbilitySystem/Abilities/ASAbility.h"
 #include "AbilitySystem/Abilities/ASAbilitySystem.h"
 #include "AbilitySystem/AttributeSystem/ASAttribute.h"
 #include "AbilitySystem/AttributeSystem/ASAttributeSystem.h"
-#include "Kismet/GameplayStatics.h"
 
 AASPawn::AASPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AttributeSystem = CreateDefaultSubobject<UASAttributeSystem>(TEXT("AttributeSystem"));
 	AbilitySystem = CreateDefaultSubobject<UASAbilitySystem>(TEXT("AbilitySystem"));
-	
 }
 
 AASPawn::~AASPawn()
@@ -77,6 +74,7 @@ void AASPawn::AddExperience(const float Experience)
 {
 	CurrentExperience += Experience;
 	const auto Diff = CurrentExperience - GetRequiredExperience();
+	OnExperiencedGained.Broadcast(CurrentExperience);
 
 	if (Diff > 0.f)
 	{
@@ -104,6 +102,7 @@ bool AASPawn::LevelUpAbility(const FName AbilityName)
 	{
 		Ability->LevelUp();
 		CurrentAbilityPoints--;
+		OnAbilityLevelUp.Broadcast(AbilityName, CurrentAbilityPoints);
 		return true;
 	}
 	
