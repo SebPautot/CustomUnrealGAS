@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ASAbilityEffectSpec.h"
+#include "ASPawn.h"
 #include "Components/ActorComponent.h"
 #include "ASAbilitySystem.generated.h"
 
@@ -31,6 +32,7 @@ public:
 
 public:
 	UASAbilitySystem();
+	void Initialize(AASPawn* Owner);
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	UASAbilityTask* StartOrStackEffect(const FASAbilityEffectSpec& Spec, UASAbility* SourceAbility, const TArray<TScriptInterface<IASTargetable>>& Targets);
@@ -39,9 +41,6 @@ public:
 	void CancelEffectByKey(FName StackKey);
 
 	UASAbility* TryGetAbility(FName Name) const;
-
-protected:
-	virtual void BeginPlay() override;
 
 private:
 	/** Dictionary tracking active tasks by key. */

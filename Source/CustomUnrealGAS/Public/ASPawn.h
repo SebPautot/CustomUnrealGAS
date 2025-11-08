@@ -49,7 +49,8 @@ protected:
 	UPROPERTY(BlueprintReadWrite,  EditAnywhere, Category = "Targetting")
 	TScriptInterface<IASTargetable> Target;
 private:
-	TWeakObjectPtr<UASAttribute> DamageAttribute;
+	UPROPERTY()
+	UASAttribute* DamageAttribute;
 
 public:
 	AASPawn();

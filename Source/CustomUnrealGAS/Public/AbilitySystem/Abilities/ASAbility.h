@@ -114,6 +114,7 @@ public:
 	 * @return The generic damage.
 	 */
 	float GetGenericDamageForLevel() const;
+	void SetOwner(AASPawn* InOwner) { if (!Owner) Owner = InOwner; }
 
 	/**
 	 * Calculates the damage of the ability for a given level. The calculation adapts based on the specified scaling mode.

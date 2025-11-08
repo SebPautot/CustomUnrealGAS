@@ -34,7 +34,8 @@ void AASPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this; 
+	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this;
+	AbilitySystem->Initialize(this);
 }
 
 void AASPawn::Tick(float DeltaTime)
@@ -42,9 +43,11 @@ void AASPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+// TODO : This should come be an interface method, so that we can pass the interface to the ability system
+//		which would allow us to have any object being able to cast abilities
 float AASPawn::GetBaseDamage()
 {
-	if (DamageAttribute.IsValid())
+	if (DamageAttribute != nullptr)
 		return DamageAttribute->GetValue();
 
 	if (!DamageAttributeRow.IsNull())

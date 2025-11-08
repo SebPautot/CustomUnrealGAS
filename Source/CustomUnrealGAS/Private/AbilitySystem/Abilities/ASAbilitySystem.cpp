@@ -12,14 +12,13 @@ UASAbilitySystem::UASAbilitySystem()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UASAbilitySystem::BeginPlay()
+void UASAbilitySystem::Initialize(AASPawn* Owner)
 {
-	Super::BeginPlay();
-
 	for (auto AbilityClass : AbilityClasses)
 	{
 		UASAbility* Instance = NewObject<UASAbility>(this, AbilityClass);
 		Abilities.Add(Instance->ActionName, Instance);
+		Instance->SetOwner(Owner);
 	}
 
 	OnAllAbilitiesInitialized.Broadcast();
