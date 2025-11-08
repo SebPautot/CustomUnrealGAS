@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "ASGameMode.generated.h"
 
+class AASSpawnPosition;
 class AASPlayerController;
 class AASPawn;
 class AASEnemy;
@@ -23,6 +24,9 @@ class CUSTOMUNREALGAS_API AASGameMode : public AGameModeBase
 private:
 	UPROPERTY()
 	AASPlayerController* PlayerController;
+
+	UPROPERTY()
+	TArray<AASSpawnPosition*> SpawnPositions;
 
 public:
 	/**

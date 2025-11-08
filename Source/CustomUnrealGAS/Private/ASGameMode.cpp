@@ -5,6 +5,8 @@
 
 #include "ASPawn.h"
 #include "ASPlayerController.h"
+#include "ASSpawnPosition.h"
+#include "EngineUtils.h"
 #include "Enemies/ASEnemy.h"
 #include "Enemies/ASEnemyManager.h"
 
@@ -20,7 +22,25 @@ void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 
 AASEnemy* AASGameMode::GenerateNewEnemy()
 {
-	AASEnemy* NewEnemy = GetWorld()->SpawnActor<AASEnemy>(EnemyClass, FVector::ZeroVector, FRotator::ZeroRotator);
+	AASSpawnPosition* SpawnPosition = nullptr;
+	for (auto SpawnPos : SpawnPositions)
+	{
+		if (SpawnPos->IsAvailable())
+		{
+			SpawnPosition = SpawnPos;
+			break;
+		}
+	}
+
+	if (!SpawnPosition)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No available spawn positions!"));
+		return nullptr;
+	}
+	
+	AASEnemy* NewEnemy = GetWorld()->SpawnActor<AASEnemy>(EnemyClass, SpawnPosition->GetActorLocation(), FRotator::ZeroRotator);
+	SpawnPosition->SpawnActor(NewEnemy);
+	
 	NewEnemy->SetLevel(PlayerController->GetPlayerPawn()->Level);
 	Enemies.Add(NewEnemy);
 	
@@ -34,6 +54,13 @@ AASEnemy* AASGameMode::GenerateNewEnemy()
 void AASGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	for (TActorIterator<AASSpawnPosition> Iterator(GetWorld()); Iterator; ++Iterator)
+	{
+		AASSpawnPosition* SpawnPosition = *Iterator;
+		SpawnPositions.Add(SpawnPosition);
+	}
+	
 	for (int i = 0; i < StartEnemyCount; i++)
 	{
 		GenerateNewEnemy();
