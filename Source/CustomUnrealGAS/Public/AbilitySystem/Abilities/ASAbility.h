@@ -16,7 +16,7 @@ class AASEnemy;
 class UASAbilityTask;
 class AASPawn;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCooldownStateChangedSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCooldownStateChangedSignature, float, RemainingTime);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityLevelUpSignature);
 
 /**
@@ -77,7 +77,8 @@ protected:
 
 	UFUNCTION()
 	UASAbilitySystem* GetOwningSystem() const { return Owner->AbilitySystem; }
-
+	
+	FTimerHandle CooldownTimerHandle;
 	float CurrentCooldown;
 	
 private:
@@ -161,4 +162,9 @@ public:
 		// Doing Level * Level instead of using pow because this is more optimised
 		return HalfScaling * (Level * Level) + HalfScaling * Level + Base;
 	}
+	
+private:
+	void BeginCooldown();
+	void CooldownTick();
+	void EndCooldown();
 };

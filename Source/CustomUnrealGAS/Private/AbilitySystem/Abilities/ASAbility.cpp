@@ -7,12 +7,18 @@
 
 bool UASAbility::TryUseAbility()
 {
-	return false;
+	if (!CanUseAbility())
+	{
+		return false;
+	}
+
+	BeginCooldown();
+	return true;
 }
 
 bool UASAbility::CanUseAbility()
 {
-	return false;
+	return CurrentCooldown <= 0.f;
 }
 
 
@@ -63,6 +69,42 @@ float UASAbility::GetFinalPercentage(const float Percentage, const EDamageScalin
 	}
 
 	return FinalPercentage;
+}
+
+void UASAbility::BeginCooldown()
+{
+	if (Cooldown <= 0.f || !Owner)
+	{
+		CurrentCooldown = 0.f;
+		return;
+	}
+
+	CurrentCooldown = Cooldown;
+	OnCooldownStateChanged.Broadcast(CurrentCooldown);
+
+	FTimerManager& TM = Owner->GetWorldTimerManager();
+	if (TM.IsTimerActive(CooldownTimerHandle))
+		TM.ClearTimer(CooldownTimerHandle);
+	TM.SetTimer(CooldownTimerHandle, this, &UASAbility::CooldownTick, 0.1f, true);
+}
+
+void UASAbility::CooldownTick()
+{
+	// We use a fixed interval of 0.1s, so the delta to remove is that
+	CurrentCooldown -= 0.1f;
+	
+	if (CurrentCooldown <= 0.f)
+		EndCooldown();
+	else
+		OnCooldownStateChanged.Broadcast(CurrentCooldown);
+}
+
+void UASAbility::EndCooldown()
+{
+	CurrentCooldown = 0.f;
+	if (Owner)
+		Owner->GetWorldTimerManager().ClearTimer(CooldownTimerHandle);
+	OnCooldownStateChanged.Broadcast(CurrentCooldown);
 }
 
 FASAttributeData* UASAbility::GetGenericData()

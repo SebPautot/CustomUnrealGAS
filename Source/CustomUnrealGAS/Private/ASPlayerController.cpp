@@ -52,9 +52,12 @@ void AASPlayerController::RequestPlayAbility(const FName AbilityName) const
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("No Targeter"));
 		return;
 	}
-
-	auto Targets = TargetSystem->GetTargetsForType(LocalPawn, Ability->AbilityTargetType);
-	Ability->UseAbility(Targets);
+	
+	if (Ability->TryUseAbility())
+	{
+		auto Targets = TargetSystem->GetTargetsForType(LocalPawn, Ability->AbilityTargetType);
+		Ability->UseAbility(Targets);
+	}
 }
 
 void AASPlayerController::OnRewardEarned(TScriptInterface<IASTargetable>, const int Experience)
