@@ -15,7 +15,7 @@ void UASEnemyManager::RemoveEnemy(AASEnemy* Enemy)
 	if (Enemies.Contains(Enemy))
 		Enemies.Remove(Enemy);
 
-	OnEnemyDeath.Broadcast(Enemy->GetExperienceReward());
+	OnEnemyDeath.Broadcast(Enemy, Enemy->GetExperienceReward());
 }
 
 void UASEnemyManager::AddEnemy(AASEnemy* Enemy)

@@ -7,6 +7,7 @@
 #include "ASHealthComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeathSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangedSignature, UASHealthComponent*, HealthComponent, float, Health);
 
 
 UCLASS(ClassGroup=(Health), meta=(BlueprintSpawnableComponent))
@@ -22,6 +23,9 @@ private:
 	/** The current health of the actor. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health", meta = (AllowPrivateAccess = true, ClampMin = 0))
 	float Health = 100;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Health")
+	FOnHealthChangedSignature OnHealthChanged;
 
 public:
 	UASHealthComponent();

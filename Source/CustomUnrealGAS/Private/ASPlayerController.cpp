@@ -57,7 +57,7 @@ void AASPlayerController::RequestPlayAbility(const FName AbilityName) const
 	Ability->UseAbility(Targets);
 }
 
-void AASPlayerController::OnRewardEarned(const int Experience)
+void AASPlayerController::OnRewardEarned(TScriptInterface<IASTargetable>, const int Experience)
 {
 	const auto LocalPawn = GetPlayerPawn();
 	if (!LocalPawn)

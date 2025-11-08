@@ -12,6 +12,7 @@ UASHealthComponent::UASHealthComponent()
 void UASHealthComponent::TakeDamage(const float Damage)
 {
 	Health -= Damage;
+	OnHealthChanged.Broadcast(this, Health);
 	if (Health <= 0)
 	{
 		OnDeath.Broadcast();

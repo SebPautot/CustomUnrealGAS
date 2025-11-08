@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ASTargetable.h"
 #include "GameFramework/PlayerController.h"
 #include "ASPlayerController.generated.h"
 
@@ -20,7 +21,7 @@ public:
 	void BeginPlay() override;
 	
 	UFUNCTION()
-	void OnRewardEarned(int Experience);
+	void OnRewardEarned(TScriptInterface<IASTargetable> Enemy, int Experience);
 	
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	AASPawn* GetPlayerPawn() const;
