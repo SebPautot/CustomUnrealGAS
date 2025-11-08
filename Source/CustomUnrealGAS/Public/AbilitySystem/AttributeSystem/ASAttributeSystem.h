@@ -10,6 +10,18 @@
 struct FASAttributeData;
 class UASAttribute;
 
+USTRUCT(BlueprintType)
+struct FDefaultAttribute
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly)
+	FDataTableRowHandle Attribute;
+
+	UPROPERTY(EditDefaultsOnly)
+	float Value;
+};
+
 /**
  * 
  */
@@ -19,10 +31,14 @@ class CUSTOMUNREALGAS_API UASAttributeSystem : public UActorComponent
 	GENERATED_BODY()
 
 private:
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes", meta=(AllowPrivateAccess = true))
+	TArray<FDefaultAttribute> AttributesOnStart;
+	
 	TMap<FName, TObjectPtr<UASAttribute>> Attributes;
 
 public:
+	void BeginPlay() override;
+	
 	UASAttribute* InitializeAttributeFromData(const FASAttributeData& Data);
 	UASAttribute* InstantiateAttributesFromData(const TArray<FASAttributeData*>& AttributeArray);
 	/**

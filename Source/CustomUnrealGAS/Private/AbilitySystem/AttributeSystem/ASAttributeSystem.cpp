@@ -5,6 +5,20 @@
 
 #include "AbilitySystem/AttributeSystem/ASAttribute.h"
 
+void UASAttributeSystem::BeginPlay()
+{
+    Super::BeginPlay();
+
+    for (const FDefaultAttribute& DefaultAttribute : AttributesOnStart)
+    {
+        const FDataTableRowHandle& Row = DefaultAttribute.Attribute;
+        const float Value = DefaultAttribute.Value;
+
+        const auto AttributeData = Row.GetRow<FASAttributeData>(TEXT(""));
+        InitializeAttributeFromData(*AttributeData)->SetValue(Value);
+    }
+}
+
 UASAttribute* UASAttributeSystem::InitializeAttributeFromData(const FASAttributeData& Data)
 {
     UASAttribute* NewAttribute = NewObject<UASAttribute>();
