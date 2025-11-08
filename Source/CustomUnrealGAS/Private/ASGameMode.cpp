@@ -17,7 +17,14 @@ void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 		Subsystem->RemoveEnemy(Enemy);
 
 	Enemy->Destroy();
-	GenerateNewEnemy();
+
+	// Schedule delayed respawn without relying on a single shared handle.
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, [this, &TimerHandle] ()
+	{
+		GenerateNewEnemy();
+		GetWorldTimerManager().ClearTimer(TimerHandle);
+	}, RespawnTime, false);
 }
 
 AASEnemy* AASGameMode::GenerateNewEnemy()

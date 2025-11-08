@@ -28,6 +28,9 @@ private:
 	UPROPERTY()
 	TArray<AASSpawnPosition*> SpawnPositions;
 
+	UPROPERTY(EditDefaultsOnly)
+	float RespawnTime = 1.f;
+
 public:
 	/**
 	 *Declare the death of the provided enemy so that it can be processed by the system.

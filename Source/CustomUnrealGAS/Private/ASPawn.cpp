@@ -114,7 +114,7 @@ void AASPawn::LevelUp()
 	if (GetRequiredExperience())
 	{
 		Level++;
-		CurrentAbilityPoints = GetAbilityPointsForLevel();
+		CurrentAbilityPoints += GetAbilityPointsForLevel();
 		OnLevelUp.Broadcast(CurrentAbilityPoints);
 		CurrentExperience = 0.f;
 	}

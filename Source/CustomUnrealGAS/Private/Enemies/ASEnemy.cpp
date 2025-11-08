@@ -38,6 +38,7 @@ void AASEnemy::SetLevel(const int NewLevel)
 void AASEnemy::OnDeath()
 {
 	IsDead = true;
+	// TODO: replace with delegate
 	AASGameMode* GameMode = Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (!GameMode) return;
 	GameMode->DeclareDeath(this);
