@@ -58,6 +58,7 @@ float UASAbility::GetFinalPercentage(const float Percentage, const EDamageScalin
 		FinalPercentage = DoHyperbolicMath(100, Scaling / 100, Level) + Percentage; 
 		break;
 	default:
+		FinalPercentage = Percentage;
 		break;
 	}
 
