@@ -44,6 +44,11 @@ public:
 
 	float GetExperienceReward() { return ExperienceRewardCurve->GetFloatValue(Level); }
 	
+	void SetLevel(int NewLevel);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Level")
+	void OnLevelSet();
+	
 protected:
 	virtual void BeginPlay() override;
 

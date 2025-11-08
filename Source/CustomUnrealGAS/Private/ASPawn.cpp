@@ -20,9 +20,6 @@ AASPawn::AASPawn()
 
 AASPawn::~AASPawn()
 {
-	AASGameMode* GameMode = Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (!GameMode) return;
-	GameMode->Player = nullptr;
 }
 
 void AASPawn::OnTargetDeath()
@@ -34,7 +31,6 @@ void AASPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Cast<AASGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->Player = this;
 	AbilitySystem->Initialize(this);
 }
 

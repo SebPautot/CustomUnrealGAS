@@ -2,6 +2,9 @@
 
 
 #include "ASGameMode.h"
+
+#include "ASPawn.h"
+#include "ASPlayerController.h"
 #include "Enemies/ASEnemy.h"
 #include "Enemies/ASEnemyManager.h"
 
@@ -17,7 +20,8 @@ void AASGameMode::DeclareDeath(AASEnemy* Enemy)
 
 AASEnemy* AASGameMode::GenerateNewEnemy()
 {
-	AASEnemy* NewEnemy = NewObject<AASEnemy>(EnemyClass->GetClass());
+	AASEnemy* NewEnemy = GetWorld()->SpawnActor<AASEnemy>(EnemyClass, FVector::ZeroVector, FRotator::ZeroRotator);
+	NewEnemy->SetLevel(PlayerController->GetPlayerPawn()->Level);
 	Enemies.Add(NewEnemy);
 	
 	if (const auto Subsystem = GetWorld()->GetSubsystem<UASEnemyManager>())
@@ -34,6 +38,16 @@ void AASGameMode::BeginPlay()
 	{
 		GenerateNewEnemy();
 	}
+}
+
+AActor* AASGameMode::ChoosePlayerStart_Implementation(AController* Player)
+{
+	if (AASPlayerController* Controller = Cast<AASPlayerController>(Player))
+	{
+		PlayerController = Controller;
+	}
+	
+	return Super::ChoosePlayerStart_Implementation(Player);
 }
 
 

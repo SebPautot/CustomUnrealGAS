@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "ASGameMode.generated.h"
 
+class AASPlayerController;
 class AASPawn;
 class AASEnemy;
 
@@ -18,6 +19,10 @@ UCLASS()
 class CUSTOMUNREALGAS_API AASGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+private:
+	UPROPERTY()
+	AASPlayerController* PlayerController;
 
 public:
 	/**
@@ -36,12 +41,12 @@ public:
 	int StartEnemyCount = 3;
 
 	virtual void BeginPlay() override;
+	
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
     FOnEnemyListChangedSignature OnEnemyListChanged;
 	
-	UPROPERTY(BlueprintReadWrite)
-	TObjectPtr<AASPawn> Player;
 	UPROPERTY(BlueprintReadWrite)
 	TArray<TObjectPtr<AASEnemy>> Enemies;
 };
